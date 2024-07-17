@@ -125,7 +125,7 @@ class MyNotification{
     );
   }
 
-  DialogToCheck(context){
+  DialogToCheck(context,keyType,screen){
     String pw="";
     showDialog(
       context: context,
@@ -154,10 +154,10 @@ class MyNotification{
               ),
               IconButton(
                 onPressed: () async{
-                  if(await keymethod.checkMaster(pw)==true){
+                  if(await keymethod.checkMaster(pw,keyType)==true){
                     Navigator.push(context, MaterialPageRoute(    //가챠창으로 이동
                         builder: (context){
-                          return const Masterpage();
+                          return screen;
                         }));
                   }
                   else{

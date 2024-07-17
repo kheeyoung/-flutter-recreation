@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/screens/detailedMap.dart';
 import 'package:myapp/widget/header.dart';
+import 'package:myapp/widget/myNotification.dart';
 
 class MyMap extends StatefulWidget {
   const MyMap({super.key});
@@ -11,6 +12,7 @@ class MyMap extends StatefulWidget {
 
 class _MyMapState extends State<MyMap> {
   Header header=Header();
+  MyNotification myNotification=MyNotification();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,50 +23,35 @@ class _MyMapState extends State<MyMap> {
             //1층
             OutlinedButton(
                 onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(
-                      builder: (context){
-                        return const Detailedmap(floor: 1);
-                      }));
+                  myNotification.DialogToCheck(context, 1, Detailedmap(floor: 1));
                 },
                 child: Text("1층")
             ),
             //2층
             OutlinedButton(
                 onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(
-                      builder: (context){
-                        return const Detailedmap(floor: 2);
-                      }));
+                  myNotification.DialogToCheck(context, 2, Detailedmap(floor: 2));
                 },
                 child: Text("2층")
             ),
             //3층
             OutlinedButton(
                 onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(
-                      builder: (context){
-                        return const Detailedmap(floor: 3);
-                      }));
+                  myNotification.DialogToCheck(context, 3, Detailedmap(floor: 3));
                 },
                 child: Text("3층")
             ),
             //4층
             OutlinedButton(
                 onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(
-                      builder: (context){
-                        return const Detailedmap(floor: 4);
-                      }));
+                  myNotification.DialogToCheck(context, 4, Detailedmap(floor: 4));
                 },
                 child: Text("4층")
             ),
             //5층
             OutlinedButton(
                 onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(
-                      builder: (context){
-                        return const Detailedmap(floor: 5);
-                      }));
+                  myNotification.DialogToCheck(context, 5, Detailedmap(floor: 5));
                 },
                 child: Text("5층")
             )

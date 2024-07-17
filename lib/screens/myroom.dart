@@ -37,7 +37,9 @@ class _MyroomState extends State<Myroom> {
                   FutureBuilder(
                       future:  Future.wait([usermethod.getMyLikePoint(user!.uid),usermethod.showMySpecialGift(user.uid),usermethod.getMyItem(user!.uid)]),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
+
                         if (snapshot.hasData) {
+
                           //호감도 출력용
                           List data =snapshot.data[0];
                           List<DataRow> datacelldata=[];
@@ -74,6 +76,7 @@ class _MyroomState extends State<Myroom> {
                                       if(result==0){resultText="선물 받기 성공!";}
                                       if(result==1){resultText="호감도가 부족합니다.";}
                                       if(result==2){resultText="이미 받은 선물입니다.";}
+                                      if(result==3){resultText="특별 선물이 아직 등록되지 않았습니다.";}
                                       myNotification.SnackbarBasic(context, resultText);
                                       setState(() {});
                                       },

@@ -27,6 +27,7 @@ class _MasterpageState extends State<Masterpage> {
   ListViewWidget listViewWidget=ListViewWidget();
   Keymethod keymethod=Keymethod();
   Boardmethod boardmethod=Boardmethod();
+  String SelectedKey="";
 
   @override
   Widget build(BuildContext context) {
@@ -187,11 +188,26 @@ class _MasterpageState extends State<Masterpage> {
                         decoration: inputTextFormField.basicFormDeco("password"),
                       ),
                     ),
+                    DropdownButton<String>(
+                      value: SelectedKey.isNotEmpty ? SelectedKey : null,
+                      items: ["masterkey","map1","map2","map3","map4","map5"]
+                          .map((e) => DropdownMenuItem(
+                        value: e.toString(),
+                        child: Text(e.toString(),style: TextStyle(color: Colors.black),),
+                      )).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          SelectedKey = newValue!;
+                        });
+                      },
+                      dropdownColor: Colors.white,
+                      iconSize: 50,
+                    )
                   ],
                 ),
                 OutlinedButton(
                     onPressed: ()async{
-                      int num=await keymethod.ChangePw(newPassword);
+                      int num=await keymethod.ChangePw(newPassword,SelectedKey);
                       String result=num==1 ? "변경 성공!": "오류!";
                       myNotification.SnackbarBasic(context, result);
                     },

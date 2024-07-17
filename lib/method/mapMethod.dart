@@ -13,8 +13,6 @@ class Mapmethod {
       (querySnapshot) {
         for (int i = 0; i < querySnapshot.size; i++) {
 
-
-
           MyMap data = MyMap(
               querySnapshot.docs[i]['Room'],
               querySnapshot.docs[i]['item1'],

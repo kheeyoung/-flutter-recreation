@@ -132,12 +132,14 @@ class Usermethod {
     final db = FirebaseFirestore.instance;
     List<List> LikePoints=[];
     await db.collection("likepoint").doc(userUid).get().then((querySnapshot) async {
-      List user=querySnapshot.data()!.keys.toList();
-      for(int i=0; i<user.length; i++){
-        String name=await getUserNameByUid(user[i]);
-        LikePoints.add([user[i],name,querySnapshot.data()![user[i]]]);
-      }
+      if(querySnapshot.exists){ //호감도 쌓은 이력이 있을 경우
+        List user=querySnapshot.data()!.keys.toList();
 
+        for(int i=0; i<user.length; i++){
+          String name=await getUserNameByUid(user[i]);
+          LikePoints.add([user[i],name,querySnapshot.data()![user[i]]]);
+        }
+      }
     },
       onError: (e) => print("Error completing: $e"),
     );
@@ -175,24 +177,29 @@ class Usermethod {
     if(likeNum>4){    //호감도 달성에 성공한 경우
       final db = FirebaseFirestore.instance;
       final storageRef = FirebaseStorage.instance.ref();
-
       //이미 받은 이력이 있나 확인
       await db.collection("specialgift").doc(userUid).collection("specialgift").doc(giftOwnerUid).get().then((querySnapshot)  async {
         if (querySnapshot.exists) {
-
           result+=2;
         }
         else{
           //없으면 새로 등록
           String formattedDate = DateFormat('yyMMddhhmmss').format(DateTime.now());
-          final imageUrl = await storageRef.child("specialgift/"+giftOwnerName+".png").getDownloadURL();
+          try {
+            final imageUrl = await storageRef.child(
+                "specialgift/" + giftOwnerName + ".png").getDownloadURL();
+            final data = <String, dynamic>{
+              "giftName" : giftOwnerName+"의 특별 선물",  //가장 오래된 아이템부터 사용 하니 이름만 있어도 되게 함)
+              "time" : formattedDate,
+              "url": imageUrl
+            };
+            db.collection("specialgift").doc(userUid).collection("specialgift").doc(giftOwnerUid).set(data);
+          }
+          catch(e){
+            //이미지 등록 안 되어 있을 경우 3 리턴
+            result=3;
+          }
 
-          final data = <String, dynamic>{
-            "giftName" : giftOwnerName+"의 특별 선물",  //가장 오래된 아이템부터 사용 하니 이름만 있어도 되게 함)
-            "time" : formattedDate,
-            "url": imageUrl
-          };
-          db.collection("specialgift").doc(userUid).collection("specialgift").doc(giftOwnerUid).set(data);
         }
       });
     }

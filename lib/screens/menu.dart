@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/screens/gacha.dart';
 import 'package:myapp/screens/gift.dart';
 import 'package:myapp/screens/board.dart';
+import 'package:myapp/screens/masterPage.dart';
 import 'package:myapp/screens/myMap.dart';
 import 'package:myapp/screens/myroom.dart';
 import 'package:myapp/widget/header.dart';
@@ -123,7 +124,7 @@ class _MenuState extends State<Menu> {
                   children: [
                     IconButton(
                       onPressed: (){
-                        myNotification.DialogToCheck(context);
+                        myNotification.DialogToCheck(context,0,Masterpage());
                       },
                       icon: Icon(Icons.add,size: 80,),tooltip: "",),
                     Text("OO's ROOM")
