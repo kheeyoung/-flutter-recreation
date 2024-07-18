@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/DTO//myMap.dart';
 
@@ -20,7 +21,8 @@ class Mapmethod {
               querySnapshot.docs[i]['item3'],
               querySnapshot.docs[i]['item4'],
               querySnapshot.docs[i]['item5'],
-              querySnapshot.docs[i]['txt']);
+              querySnapshot.docs[i]['txt'],)
+        ;
 
           MapList.add(data);
         }
@@ -128,6 +130,7 @@ class Mapmethod {
     return txt;
   }
 
+  //열렸는지 확인(데이터가 있나)
   Future<bool> isOpend(collectionName) async {
     final db = FirebaseFirestore.instance;
     bool result=true;
@@ -141,5 +144,19 @@ class Mapmethod {
 
     return result;
   }
+
+  //맵 이미지 가져오기
+  Future<String> getMapImage(floorNum)async{
+    final storageRef = FirebaseStorage.instance.ref();
+    String result="";
+    try {
+      result = await storageRef.child("mapimage/map" + floorNum.toString() + ".png").getDownloadURL();
+
+    }
+    catch(e){}
+    return result;
+  }
+
+
 
 }

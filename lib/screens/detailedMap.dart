@@ -30,11 +30,11 @@ class _DetailedmapState extends State<Detailedmap> {
     int F = widget.floor;
     return Scaffold(
       appBar: header.screenHeader(context, F.toString() + "층"),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             FutureBuilder(
-                future: Future.wait([mapmethod.getMap("map" + F.toString()), mapmethod.isOpend("map" + F.toString())]),
+                future: Future.wait([mapmethod.getMap("map" + F.toString()), mapmethod.isOpend("map" + F.toString()), mapmethod.getMapImage(F)]),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
                     //열렸나 확인
@@ -46,12 +46,29 @@ class _DetailedmapState extends State<Detailedmap> {
                     String txt = mapmethod.getMapTxt(level, room, items, mapList);
 
                     //맵 선택지 가져오기
-                    List<String> mapdata =
-                        mapmethod.showMap(level, room, items, mapList);
+                    List<String> mapdata = mapmethod.showMap(level, room, items, mapList);
+
+
+
+
+
+                    //맵 이미지용
+                    String mapimage=snapshot.data[2];
+                    Widget mapImageView;
+                    if(mapimage==""){//이미지가 없는 경우
+                      mapImageView=Text("등록된 이미지가 없습니다.");
+                    }
+                    else{
+                      mapImageView=Image.network(mapimage);
+                    }
+
+
 
                     //위젯에 담아 리스트로 만들기
                     List<Widget> mapWidget = [];
+
                     for (int i = 0; i < mapdata.length; i++) {
+
                       mapWidget.add(TextButton(
                           onPressed: () {
                             setState(() {
@@ -116,28 +133,31 @@ class _DetailedmapState extends State<Detailedmap> {
                               style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold))));
                     }
 
-                    if(isOpen==false){return const Text("문이 열리지 않는다.");}
-                    else{return Center(
-                      child: Container(
-                        padding: const EdgeInsets.all(20),
-                        //width: 350,
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 15,),
-                            Text(txt),
-                            const SizedBox(height: 10,),
-                            ListView(
-                              shrinkWrap: true,
-                              children: mapWidget,
-                            ),
-                          ],
-                        ),
+
+                    if(isOpen==false){return Center(child: const Text("문이 열리지 않는다."));}
+                    else{return Container(
+                      padding: const EdgeInsets.all(20),
+                      //width: 350,
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 15,),
+                          mapImageView,
+                          const SizedBox(height: 15,),
+                          Text(txt),
+
+                          const SizedBox(height: 10,),
+                          ListView(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            children: mapWidget,
+                          ),
+                        ],
                       ),
                     );}
 
                   }
                   else {
-                    return Text("로딩중");
+                    return Center(child: Text("로딩중"));
                   }
                 }),
           ],
