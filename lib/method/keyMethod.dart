@@ -26,6 +26,7 @@ class Keymethod{
         keyName="map5";
         break;
 
+
     }
 
     await db.collection("key").doc(keyName).get().then((querySnapshot)  {
@@ -50,6 +51,21 @@ class Keymethod{
     catch (e) {
       result=2;
     }
+    return result;
+  }
+
+  //바로 이용 가능 여부 확인
+  Future<List> checkIsOk() async {
+    final db = FirebaseFirestore.instance;
+    List result=[];
+    await db.collection("key").doc("isOk").get().then((querySnapshot) {
+      result.add(querySnapshot.data()!["state"]);
+      result.add(querySnapshot.data()!["key"]);
+
+    },
+      onError: (e) => print("Error completing: $e"),
+    );
+    //print(result);
     return result;
   }
 

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/method/boardMethod.dart';
 import 'package:myapp/method/keyMethod.dart';
+import 'package:myapp/method/userMethod.dart';
 import 'package:myapp/screens/masterPage.dart';
 import 'package:myapp/widget/inputTextFormField.dart';
 
@@ -10,6 +11,7 @@ class MyNotification{
   Boardmethod boardmethod=Boardmethod();
   InputTextFormField inputTextFormField=InputTextFormField();
   Keymethod keymethod=Keymethod();
+  Usermethod user= Usermethod();
 
   SnackbarBasic(context,textContents){
     return ScaffoldMessenger.of(context).showSnackBar(
@@ -155,7 +157,7 @@ class MyNotification{
               IconButton(
                 onPressed: () async{
                   if(await keymethod.checkMaster(pw,keyType)==true){
-                    Navigator.push(context, MaterialPageRoute(    //가챠창으로 이동
+                    Navigator.push(context, MaterialPageRoute(    //다음창으로 이동
                         builder: (context){
                           return screen;
                         }));
@@ -179,5 +181,129 @@ class MyNotification{
     );
   }
 
+
+  DialogToCheckIsOK(context,key,screen){
+    String pw="";
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(height: 15,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.accessibility),
+                  Icon(Icons.accessibility),
+                ],
+              ),
+
+              SizedBox(
+                width: 200,
+                child: TextFormField(
+                    obscureText: true,
+                    //입력하는 값 안보이게 하기
+                    key: ValueKey(1),
+                    onSaved: (value) {
+                      pw = value!;
+                    },
+                    onChanged: (value) {
+                      pw = value;
+                    },
+                    decoration: inputTextFormField.basicFormDeco("Password를 입력해주세요.")
+                ),
+              ),
+              IconButton(
+                onPressed: () async{
+                  if(key==pw){
+                    Navigator.push(context, MaterialPageRoute(    //다음창으로 이동
+                        builder: (context){
+                          return screen;
+                        }));
+                  }
+                  else{
+                    DialogBasic(context, "비밀번호가 옳지 않습니다.");
+                  }
+                },
+                icon: const Icon(Icons.key),
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: const Icon(Icons.close),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  DialogToShowLikePoint(context,userUid, userCoinData) {
+    showDialog(
+      context: context,
+      builder: (context) {
+
+        return FutureBuilder(
+          future: Future.wait([user.getMyLikePoint(userUid)]),
+          builder: (BuildContext context, AsyncSnapshot snapshot){
+            if(snapshot.hasData){
+              List data =snapshot.data[0];
+              List<DataRow> datacelldata=[];
+              for(int i=0; i<data.length; i++){
+                //호감도
+                int likenum=data[i][2];
+                //상대 이름
+                String name= data[i][1];
+                datacelldata.add(
+                    DataRow(cells: [
+                      DataCell(Text(name)),
+                      DataCell(Text(likenum.toString())),
+
+                    ])
+                );
+              }
+
+              return Dialog(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(height: 15,),
+                      Text("$userCoinData의 호감도 현황"),
+                      SizedBox(height: 15,),
+                      DataTable(
+                          columns: const [
+                            DataColumn(label: Text("이름")),
+                            DataColumn(label: Text("호감도")),
+
+                          ],
+                          rows: datacelldata
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        icon: const Icon(Icons.close),
+                      )
+                    ],
+                  ),
+                )
+              );
+            }
+            else{
+              return Text("로딩중");
+            }
+          }
+
+        );
+      },
+    );
+  }
 
 }

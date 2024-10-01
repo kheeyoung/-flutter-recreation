@@ -25,35 +25,35 @@ class _MyMapState extends State<MyMap> {
                 onPressed: (){
                   myNotification.DialogToCheck(context, 1, Detailedmap(floor: 1));
                 },
-                child: Text("1층")
+                child: Text("A 구역")
             ),
             //2층
             OutlinedButton(
                 onPressed: (){
                   myNotification.DialogToCheck(context, 2, Detailedmap(floor: 2));
                 },
-                child: Text("2층")
+                child: Text("B 구역")
             ),
             //3층
             OutlinedButton(
                 onPressed: (){
                   myNotification.DialogToCheck(context, 3, Detailedmap(floor: 3));
                 },
-                child: Text("3층")
+                child: Text("C 구역")
             ),
             //4층
             OutlinedButton(
                 onPressed: (){
                   myNotification.DialogToCheck(context, 4, Detailedmap(floor: 4));
                 },
-                child: Text("4층")
+                child: Text("D 구역")
             ),
             //5층
             OutlinedButton(
                 onPressed: (){
                   myNotification.DialogToCheck(context, 5, Detailedmap(floor: 5));
                 },
-                child: Text("5층")
+                child: Text("E 구역")
             )
 
           ],

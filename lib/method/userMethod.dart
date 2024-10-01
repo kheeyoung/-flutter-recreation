@@ -144,8 +144,6 @@ class Usermethod {
       onError: (e) => print("Error completing: $e"),
     );
 
-
-
     return LikePoints;
   }
 
@@ -236,14 +234,19 @@ class Usermethod {
     List coinList=[];
     await db.collection("user").get().then((querySnapshot) async {
       for (int i = 0; i < querySnapshot.size; i++) {
-        coinList.add([querySnapshot.docs[i]["name"], querySnapshot.docs[i]["coin"]]);
+        coinList.add(
+            [querySnapshot.docs[i]["name"],
+              querySnapshot.docs[i]["uid"],
+              querySnapshot.docs[i]["coin"],
+
+            ]
+        );
       }
     },
         onError: (e) => print("Error completing: $e"),
       );
 
    return coinList;
-
   }
 
   Future<List> getMyItem(String uid) async{

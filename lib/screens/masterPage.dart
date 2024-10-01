@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:myapp/DTO/myMap.dart';
 import 'package:myapp/method/boardMethod.dart';
 import 'package:myapp/method/keyMethod.dart';
+import 'package:myapp/method/mapMethod.dart';
 import 'package:myapp/method/userMethod.dart';
 import 'package:myapp/widget/header.dart';
 import 'package:myapp/widget/inputTextFormField.dart';
@@ -29,6 +31,18 @@ class _MasterpageState extends State<Masterpage> {
   Boardmethod boardmethod=Boardmethod();
   String SelectedKey="";
 
+  String bodyNum="";
+  String Room="";
+  String item1="";
+  String item2="";
+  String item3="";
+  String item4="";
+  String item5="";
+  String txt="";
+
+  Mapmethod mapmethod= Mapmethod();
+
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -54,7 +68,7 @@ class _MasterpageState extends State<Masterpage> {
                       List userNames = snapshot.data[0];
                       List userCoins = snapshot.data[1];
 
-                      List<Widget> coinList = listViewWidget.showUserCoin(userCoins);
+                      List<Widget> coinList = listViewWidget.showUserCoinAndLike(userCoins,context);
 
                       return Column(
                         children: [
@@ -147,7 +161,8 @@ class _MasterpageState extends State<Masterpage> {
                           const SizedBox(width: 350, child: Divider()),
                           const SizedBox(height: 10,),
 
-                          const Text("코인 보유 현황", style: TextStyle(fontSize: 17)),
+                          //코인+호감도
+                          const Text("코인 / 호감도 보유 현황", style: TextStyle(fontSize: 17)),
 
                           const SizedBox(height: 10,),
 
@@ -173,7 +188,7 @@ class _MasterpageState extends State<Masterpage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("신규 비밀번호 : "),
+                    //Text("신규 비밀번호 : "),
                     SizedBox(
                       width: 160,
                       child: TextFormField(
@@ -248,6 +263,166 @@ class _MasterpageState extends State<Masterpage> {
                     child: Text("삭제")
                 ),
                 SizedBox(height: 15,),
+
+
+                //시체 위치 바꾸기
+                const SizedBox(width: 350, child: Divider()),
+                Text("시체 위치 변경",style: TextStyle(fontSize: 17),),
+                SizedBox(height: 15,),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Room : "),
+                    SizedBox(
+                      width: 160,
+                      child: TextFormField(
+                        maxLength: 12,
+                        key: ValueKey(4),
+                        onSaved: (value) {
+                          Room = value!;
+                        },
+                        onChanged: (value) {
+                          Room = value;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("item1 : "),
+                    SizedBox(
+                      width: 160,
+                      child: TextFormField(
+                        maxLength: 12,
+                        key: ValueKey(5),
+                        onSaved: (value) {
+                          item1 = value!;
+                        },
+                        onChanged: (value) {
+                          item1 = value;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("item2 : "),
+                    SizedBox(
+                      width: 160,
+                      child: TextFormField(
+                        maxLength: 12,
+                        key: ValueKey(6),
+                        onSaved: (value) {
+                          item2 = value!;
+                        },
+                        onChanged: (value) {
+                          item2 = value;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("item3 : "),
+                    SizedBox(
+                      width: 160,
+                      child: TextFormField(
+                        maxLength: 12,
+                        key: ValueKey(7),
+                        onSaved: (value) {
+                          item3 = value!;
+                        },
+                        onChanged: (value) {
+                          item3 = value;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("item4 : "),
+                    SizedBox(
+                      width: 160,
+                      child: TextFormField(
+                        maxLength: 12,
+                        key: ValueKey(8),
+                        onSaved: (value) {
+                          item4 = value!;
+                        },
+                        onChanged: (value) {
+                          item4 = value;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("item5 : "),
+                    SizedBox(
+                      width: 160,
+                      child: TextFormField(
+                        maxLength: 12,
+                        key: ValueKey(9),
+                        onSaved: (value) {
+                          item5 = value!;
+                        },
+                        onChanged: (value) {
+                          item5 = value;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("시체 번호 : "),
+                    SizedBox(
+                      width: 160,
+                      child: TextFormField(
+                        maxLength: 12,
+                        key: ValueKey(10),
+                        onSaved: (value) {
+                          txt = value!;
+                        },
+                        onChanged: (value) {
+                          txt = value;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                OutlinedButton(
+                    onPressed: ()async{
+                      int num=await mapmethod.changebody(Room,item1,item2,item3,item4,item5,txt);
+                      String result=num==1 ? "변경 성공!": "오류!";
+                      myNotification.SnackbarBasic(context, result);
+
+                      setState(() {
+                        Room="";
+                        item1="";
+                        item2="";
+                        item3="";
+                        item4="";
+                        item5="";
+                        txt="";
+                      });
+                    },
+                    child: Text("변경")
+                ),
+                SizedBox(height: 15,),
+
               ],
             ),
           ),

@@ -23,6 +23,7 @@ class PostViewWidget {
         if (snapshot.hasData) {
           List posts = snapshot.data;
           int totalNum = posts.length;
+          print(totalNum);
 
           List<DataRow> postList = [];
           int no = 0;
@@ -35,9 +36,12 @@ class PostViewWidget {
 
             //제목이 너무 길면 자르기
             String title = snapshot.data[i].getTitle();
-            if (title.length > 7) {
-              title = title.substring(0, 7) + "...";
+            if (title.length > 8) {
+              title = title.substring(0, 8) + "...";
             }
+            //이름
+            String name = snapshot.data[i].getRecipientName();
+
             //오늘 올라온 글에는 뉴 딱지 붙이기
             String isNew="";
             if(time.contains("분")||time.contains(("시"))){
@@ -51,7 +55,7 @@ class PostViewWidget {
                 cells: [
                   DataCell(Text(no.toString())),
                   DataCell(Row(children: [Text(isNew,style: TextStyle(color: Colors.red,fontSize: 10),),Text(title)],)),
-                  DataCell(Text(snapshot.data[i].getRecipientName())),
+                  DataCell(Text(name)),
                   DataCell(Text(time))
                 ]));
           }
@@ -59,7 +63,7 @@ class PostViewWidget {
           return DataTable(
             showCheckboxColumn: false,
             horizontalMargin: 12.0,
-            columnSpacing: 50.0,
+            columnSpacing: 10.0,
             columns: const [
               DataColumn(label: Text("no",style: TextStyle(fontWeight: FontWeight.bold),)),
               DataColumn(label: Text('title',style: TextStyle(fontWeight: FontWeight.bold))),

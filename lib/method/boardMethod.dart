@@ -27,6 +27,7 @@ class Boardmethod{
             docSnapshot["senderName"]
         );
         BoardList.add(data);
+
       }
       },
         onError: (e) => print("Error completing: $e"),
@@ -63,6 +64,8 @@ class Boardmethod{
       },
         onError: (e) => print("Error completing: $e"),
       );
+    //날짜 (postUid)로 내림차순 정렬
+    BoardList.sort((a, b) => b.getPostUid().compareTo(a.getPostUid()));
 
     return BoardList;
   }
