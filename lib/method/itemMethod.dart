@@ -4,39 +4,50 @@ import 'package:intl/intl.dart';
 
 class Itemmethod{
   //가챠 뽑기
-  Future<List> getGacha(userUid) async{
-    List gift=[];
+  Future<List> getGacha(userUid, int num) async{
+    List<List> gift=[];
     try {
       final db = FirebaseFirestore.instance;
       await db.collection("gift").get().then((querySnapshot) {
         int totalGiftCount= querySnapshot.size;
-        int randomNum=Random().nextInt(totalGiftCount);
+        for(int i=0; i<num; i++){
+          int randomNum=Random().nextInt(totalGiftCount);
+          gift.add([querySnapshot.docs[randomNum].data()!["name"],querySnapshot.docs[randomNum].data()!["owner"]]);
+        }
 
-        gift=[querySnapshot.docs[randomNum].data()!["name"],querySnapshot.docs[randomNum].data()!["owner"]];
       });
     }
     catch (e) {
       print(e);
     }
+
     return gift;
   }
+  Future<void> addPickItem(userUid, gift) async {
+    WriteBatch batch = FirebaseFirestore.instance.batch();
+    CollectionReference collection = FirebaseFirestore.instance.collection('item').doc(userUid).collection("item");
+    int i=0;
+    for (List l in gift) {
+      String docName = DateFormat('yyMMddhhmmssSSSSSS').format(DateTime.now())+i.toString();
 
-  Future<void> addPickItem(userUid, giftName, giftOwner) async {
-    try{
-      final db = await FirebaseFirestore.instance;
-      String formattedDate = DateFormat('yyMMddhhmmss').format(DateTime.now());
-      final Myitem = <String, dynamic>{
+      DocumentReference docRef = collection.doc(docName); // 커스텀 문서 이름 지정
+      batch.set(docRef, {
         "isused": false,
-        "name": giftName,
-        "owner": giftOwner,
-      };
-
-      db.collection("item").doc(userUid).collection("item").doc(formattedDate).set(Myitem)
-          .onError((e, _) => print("Error writing document: $e"));
+        "name": l[0],
+        "owner": l[1],
+      });
+      i++;
     }
-    catch(e){
+
+    try {
+      await batch.commit();
+
+    } catch (e) {
+      print("에러 발생: $e");
     }
   }
+
+
 
   //소유 아이템 받아오기
   Future<Map> getMyItem(userUid) async{

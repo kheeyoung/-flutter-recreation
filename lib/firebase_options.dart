@@ -50,11 +50,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCHD3aKpzxktTALZQkJbkQOqI__rLfYN9w',
-    appId: '1:789659774412:android:b4fc3aea353971449d8169',
-    messagingSenderId: '789659774412',
-    projectId: 'naruweb-52667',
-    storageBucket: 'naruweb-52667.appspot.com',
+    apiKey: 'AIzaSyBTvRMYAz35_UbOssnRGVpL_deYsxCQsyc',
+    appId: '1:843401613107:android:af026c3ea31d72aac6f846',
+    messagingSenderId: '843401613107',
+    projectId: 'electronicstudentnote',
+    storageBucket: 'electronicstudentnote.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(

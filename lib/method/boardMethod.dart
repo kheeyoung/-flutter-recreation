@@ -15,7 +15,9 @@ class Boardmethod{
     List<Post> BoardList=[];
 
     await db.collection("board").get().then((querySnapshot) {
+
       for (var docSnapshot in querySnapshot.docs) {
+
         Post data= new Post(
             docSnapshot["title"],
             docSnapshot["contents"],
@@ -27,7 +29,6 @@ class Boardmethod{
             docSnapshot["senderName"]
         );
         BoardList.add(data);
-
       }
       },
         onError: (e) => print("Error completing: $e"),

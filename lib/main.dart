@@ -1,4 +1,5 @@
 import 'package:myapp/method/notification_controller.dart';
+import 'package:myapp/screens/loading.dart';
 import 'package:myapp/screens/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       initialBinding: BindingsBuilder.put(()=>NotificationController(),permanent: true),
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'ElectronicStudentNote',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
@@ -47,15 +48,17 @@ class MyApp extends StatelessWidget {
                 if(snapshotF.hasData){
                   bool state= snapshotF.data![0][0];
                   if(!state){
-                    return Notok(ExitKey:snapshotF.data![0][1]);
+
+                    return Menu();
+                    //Notok(ExitKey:snapshotF.data![0][1]);
                   }
                   else{
-                    print("메뉴로");
+
                     return Menu();
                   }
                 }
                 else{
-                  return Scaffold(body: Text("로딩중"));
+                  return Loading();
                 }
               },
 

@@ -51,7 +51,6 @@ class MyNotification{
 
   DialogBasic(context,text) {
     showDialog(
-
       context: context,
       builder: (context) {
         return Dialog(
@@ -90,23 +89,25 @@ class MyNotification{
                 children: [
                   SizedBox(
                     height: 400,
-                    child: Column(
-                      children: [
-                        Center(child: Text(post.getTitle(),style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),)),
-                        Divider(color: Colors.black, thickness: 1.0),
-
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("수신인 : "+post.getRecipientName()),
-                            Text("선물    : "+post.getGiftName()),
-                            Text("송신일 : "+Postdate[1]+"/"+Postdate[2]+" "+Postdate[3]+":"+Postdate[4]+" "+Postdate[5]),
-                            Divider(color: Colors.black, thickness: 1.0),
-                            Text(post.getContents()),
-                          ],
-                        )
-
-                      ],
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Center(child: Text(post.getTitle(),style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),)),
+                          Divider(color: Colors.black, thickness: 1.0),
+                      
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("수신인 : "+post.getRecipientName()),
+                              Text("선물    : "+post.getGiftName()),
+                              Text("송신일 : "+Postdate[1]+"/"+Postdate[2]+" "+Postdate[3]+":"+Postdate[4]+" "+Postdate[5]),
+                              Divider(color: Colors.black, thickness: 1.0),
+                              Text(post.getContents()),
+                            ],
+                          )
+                      
+                        ],
+                      ),
                     ),
                   ),
 
@@ -301,6 +302,102 @@ class MyNotification{
             }
           }
 
+        );
+      },
+    );
+  }
+
+  void DialogToAlarm(BuildContext context, data) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(height: 15,),
+              Text(data.title),
+              Text(data.date),
+              Text(data.contents),
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: const Icon(Icons.close),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void DialogInfo(BuildContext context, List<String> text) {
+    List<Widget> w = [];
+    w.add(Text("개인정보 이용동의", style: TextStyle(fontSize: 20),));
+    for(String s in text){
+      w.add(SizedBox(height: 15,));
+      w.add(Text(s,style: TextStyle(fontSize: 10)));
+    }
+    w.add(IconButton(
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+      icon: const Icon(Icons.close),
+    ));
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+
+          child: Container(
+            margin: EdgeInsets.all(10),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: w,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void DialogGacha(BuildContext context, List gift) {
+    Map<String,int> myItmeList=Map<String,int>();
+
+    for(int i=0; i<gift.length; i++){
+      if(myItmeList.containsKey(gift[i][0])){
+        myItmeList[gift[i][0]]=(myItmeList[gift[i][0]]!+1);
+      }
+      else{myItmeList[gift[i][0]]=1;}
+    }
+    
+    List<Widget> w =[];
+    w.add(Text("<결과>"));
+    for(String s in myItmeList.keys){
+      w.add(Text("$s : ${myItmeList[s]}개"));
+    }
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+
+          child: Container(
+            margin: EdgeInsets.all(10),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: w,
+              ),
+            ),
+          ),
         );
       },
     );

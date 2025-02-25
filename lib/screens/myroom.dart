@@ -2,6 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/method/boardMethod.dart';
 import 'package:myapp/method/userMethod.dart';
+import 'package:myapp/screens/bank.dart';
+import 'package:myapp/screens/item.dart';
+import 'package:myapp/screens/likePoint.dart';
 import 'package:myapp/widget/header.dart';
 import 'package:myapp/widget/myNotification.dart';
 
@@ -32,169 +35,56 @@ class _MyroomState extends State<Myroom> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Divider(color: Colors.black),
-                  Text("[호감도 현황]",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
-                  FutureBuilder(
-                      future:  Future.wait([usermethod.getMyLikePoint(user!.uid),usermethod.showMySpecialGift(user.uid),usermethod.getMyItem(user!.uid)]),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      //호감도 버튼
+                      Column(
+                        children: [
+                          IconButton(
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (context){
+                                    return const Likepoint();
+                                  }));
+                            },
+                            icon: Icon(Icons.favorite_outlined,size: 80,),tooltip: "호감도",),
+                          Text("호감도")
+                        ],
+                      ),
+                      SizedBox(width: 20,),
+                      //아이템
+                      Column(
+                        children: [
+                          IconButton(
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (context){
+                                    return Item();
+                                  }));
+                            },
+                            icon: Icon(Icons.shopping_bag_rounded,size: 80,),tooltip: "아이템",),
+                          Text("아이템")
+                        ],
+                      ),
+                      SizedBox(width: 20,),
+                      //송금
+                      Column(
+                        children: [
+                          IconButton(
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(    //가챠창으로 이동
+                                  builder: (context){
+                                    return const Bank();
+                                  }));
+                            },
+                            icon: Icon(Icons.monetization_on_sharp,size: 80,),tooltip: "은행",),
+                          Text("은행")
+                        ],
+                      ),
+                    ],
+                  ),
 
-                        if (snapshot.hasData) {
-
-                          //호감도 출력용
-                          List data =snapshot.data[0];
-                          List<DataRow> datacelldata=[];
-
-                          //특별 선물 출력용
-                          List dataimage =snapshot.data[1];
-                          List<DataRow> datacelldataimage=[];
-
-                          //소유 아이템 출력용
-                          List Item=snapshot.data[2];
-                          List<DataRow> datacellItem=[];
-
-
-                          for(int i=0; i<data.length; i++){
-                            //호감도
-                            int likenum=data[i][2];
-                            //상대 이름
-                            String name= data[i][1];
-                            //상대 uid
-                            String uid= data[i][0];
-
-
-
-                            datacelldata.add(
-                                DataRow(cells: [
-                                  DataCell(Text(name)),
-                                  DataCell(Text(likenum.toString())),
-                                  DataCell(IconButton(
-
-                                    onPressed:() async {
-                                      String resultText="";
-                                      int result=await usermethod.getSpecialGift(user.uid,likenum,uid,name);
-                                      print(result);
-                                      if(result==0){resultText="선물 받기 성공!";}
-                                      if(result==1){resultText="호감도가 부족합니다.";}
-                                      if(result==2){resultText="이미 받은 선물입니다.";}
-                                      if(result==3){resultText="특별 선물이 아직 등록되지 않았습니다.";}
-                                      myNotification.SnackbarBasic(context, resultText);
-                                      setState(() {});
-                                      },
-                                    icon: Icon(Icons.card_giftcard),
-
-                                  )),
-                                ])
-                            );
-                          }
-
-
-                          for(int i=0; i<dataimage.length; i++){
-                            //선물 이름
-                            String giftName= snapshot.data[1][i][0];
-                            //선물 url
-                            String giftUrl= snapshot.data[1][i][1];
-
-                            datacelldataimage.add(
-                                DataRow(cells: [
-                                  DataCell(SizedBox(
-                                    width: 100,
-                                    child: Text(giftName),
-                                  )),
-                                  DataCell(SizedBox(
-
-                                    child: GestureDetector(
-                                      onTap:(){return myNotification.DialogwithImage(context,giftUrl);},
-                                      child: Container(
-                                        padding: EdgeInsets.all(5.0),
-
-                                        child: Image.network(giftUrl,
-                                            width: 200,
-                                            height:200,
-                                            fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    )
-
-                                  )),
-                                ])
-                            );
-                          }
-
-                          for(int i=0; i<Item.length; i++){
-                            //선물 이름
-                            String ItemName= Item[i][0];
-                            //선물 뽑은 날짜
-                            List date=boardmethod.convertDate(Item[i][1]);
-                            String ItemDate= date[1]+"/"+date[2]+" "+date[3]+":"+date[4];
-
-                            datacellItem.add(
-                                DataRow(cells: [
-                                  DataCell(SizedBox(
-                                    width: 100,
-                                    child: Text(ItemName),
-                                  )),
-                                  DataCell(SizedBox(
-                                    width: 100,
-                                    child: Text(ItemDate),
-                                  )),
-
-                                ])
-                            );
-                          }
-
-
-                          return Column(
-                            children: [
-                              DataTable(
-                                  columns: const [
-                                    DataColumn(label: Text("이름")),
-                                    DataColumn(label: Text("호감도")),
-                                    DataColumn(label: Text("")),
-                                  ],
-                                  rows: datacelldata
-                              ),
-                              Divider(color: Colors.black),
-
-
-                              Text("[보유 특별 선물]",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
-
-                              DataTable(
-                                  columns: const [
-                                    DataColumn(label:SizedBox(
-                                      width: 100,
-                                        child: Text('선물명'),
-                                    )) ,
-                                    DataColumn(label:
-                                    SizedBox(
-                                      width: 200,
-                                      child: Text('이미지'),
-                                    ))
-                                  ],
-                                  rows: datacelldataimage
-                              ),
-                              Divider(color: Colors.black),
-
-                              Text("[보유 아이템]",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
-
-                              DataTable(
-                                  columns: const [
-                                    DataColumn(label:Text('아이템'),
-                                    ),
-                                    DataColumn(label:
-                                     Text('획득일'),
-                                    )
-                                  ],
-                                  rows: datacellItem
-                              ),
-                              Divider(color: Colors.black),
-
-
-                            ],
-                          );
-                        } else {
-                          return const Text("로딩중");
-                        }
-                      })
                 ],
               ),
             ),

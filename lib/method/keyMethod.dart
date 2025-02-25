@@ -65,7 +65,23 @@ class Keymethod{
     },
       onError: (e) => print("Error completing: $e"),
     );
-    //print(result);
+
+    return result;
+  }
+
+  Future<List<String>> getInfoDoc() async {
+    final db = FirebaseFirestore.instance;
+    List<String> result=[];
+    await db.collection("key").doc("infoDoc").get().then((querySnapshot) {
+      for(MapEntry<String,dynamic> s in querySnapshot.data()!.entries){
+      result.add(s.value);
+      }
+
+
+    },
+      onError: (e) => print("Error completing: $e"),
+    );
+
     return result;
   }
 

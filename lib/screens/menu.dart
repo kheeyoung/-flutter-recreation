@@ -4,6 +4,7 @@ import 'package:myapp/screens/gacha.dart';
 import 'package:myapp/screens/gift.dart';
 import 'package:myapp/screens/board.dart';
 import 'package:myapp/screens/masterPage.dart';
+import 'package:myapp/screens/miniGame.dart';
 import 'package:myapp/screens/myMap.dart';
 import 'package:myapp/screens/myroom.dart';
 import 'package:myapp/widget/header.dart';
@@ -29,7 +30,6 @@ class _MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
 
-    print("apaskljfkas");
     return Scaffold(
         backgroundColor: Colors.white,
         appBar:header.basicHeader(context,"메뉴",_authentication),
@@ -37,7 +37,7 @@ class _MenuState extends State<Menu> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              //1열
+              //1행
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -91,7 +91,7 @@ class _MenuState extends State<Menu> {
               const SizedBox(
                 height: 15.0,
               ),
-              //2열
+              //2행
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -125,19 +125,41 @@ class _MenuState extends State<Menu> {
                     ],
                   ),
                   SizedBox(width: 20,),
-                  //택배
+                  //미니게임
                   Column(
                     children: [
                       IconButton(
                         onPressed: (){
-                          myNotification.DialogToCheck(context,0,Masterpage());
+                          Navigator.push(context, MaterialPageRoute(    //미니겜창으로 이동
+                          builder: (context){
+                            return Minigame();
+                          }));
+
                         },
-                        icon: Icon(Icons.add,size: 80,),tooltip: "",),
-                      Text("OO's ROOM")
+                        icon: Icon(Icons.games_outlined,size: 80,),tooltip: "mini Game",),
+                      Text("Mini Game")
                     ],
                   ),
                 ],
               ),
+
+              //3핼
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    //설정
+                    Column(
+                      children: [
+                        IconButton(
+                          onPressed: (){
+                            myNotification.DialogToCheck(context,0,Masterpage());
+                          },
+                          icon: Icon(Icons.add,size: 80,),tooltip: "",),
+
+                      ],
+                    ),
+                  ]
+              )
 
             ],
           ),

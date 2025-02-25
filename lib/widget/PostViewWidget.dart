@@ -23,7 +23,6 @@ class PostViewWidget {
         if (snapshot.hasData) {
           List posts = snapshot.data;
           int totalNum = posts.length;
-          print(totalNum);
 
           List<DataRow> postList = [];
           int no = 0;
@@ -62,13 +61,14 @@ class PostViewWidget {
 
           return DataTable(
             showCheckboxColumn: false,
+
             horizontalMargin: 12.0,
             columnSpacing: 10.0,
-            columns: const [
-              DataColumn(label: Text("no",style: TextStyle(fontWeight: FontWeight.bold),)),
-              DataColumn(label: Text('title',style: TextStyle(fontWeight: FontWeight.bold))),
-              DataColumn(label: Text('수신인',style: TextStyle(fontWeight: FontWeight.bold))),
-              DataColumn(label: Text('게시일',style: TextStyle(fontWeight: FontWeight.bold)))
+            columns:  [
+              DataColumn(label: Container(width : MediaQuery.of(context).size.width * 0.1, child: Text("no",style: TextStyle(fontWeight: FontWeight.bold)))),
+              DataColumn(label: Container(width : MediaQuery.of(context).size.width * 0.3, child: Text('title',style: TextStyle(fontWeight: FontWeight.bold)))),
+              DataColumn(label: Container(width : MediaQuery.of(context).size.width * 0.2, child: Text('수신인',style: TextStyle(fontWeight: FontWeight.bold)))),
+              DataColumn(label: Container(width : MediaQuery.of(context).size.width * 0.1,child: Text('게시일',style: TextStyle(fontWeight: FontWeight.bold))))
             ],
             rows: postList,
           );
@@ -76,7 +76,7 @@ class PostViewWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Text("로딩중");
         } else {
-          return Text("오류!");
+          return Text("텅~");
         }
       },
     );

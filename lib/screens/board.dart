@@ -27,45 +27,47 @@ class _BoardState extends State<Board> {
   Header header=Header();
   PostViewWidget postViewWidget=PostViewWidget();
 
+  Icon postIconOn = Icon(Icons.local_post_office_sharp);
+  Icon postIconOff = Icon(Icons.local_post_office_outlined);
+
+  String haederTitle = "택배보관함";
+
   @override
   Widget build(BuildContext context) {
     final user = _authentication.currentUser;
     return Scaffold(
-      appBar: header.screenHeader(context, "택배 보관함"),
-      body: SingleChildScrollView(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent, //appBar 투명색
+        title: Text(haederTitle),
+        centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: (){
+                setState(() {
+                  if(ViewState==false){
+                    haederTitle="나의 택배보관함";
+                    ViewState=true;
+                  }
+                  else{
+                    haederTitle="택배보관함";
+                    ViewState=false;
+                  }
+                });
+              },
+              icon: ViewState==true ? postIconOn : postIconOff,
+            tooltip: "보기 변경",
+          ),
 
-        child: Container(
-          margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+        ],
+
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-
-                Container(
-
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                          ),
-                          onPressed: (){
-                            setState(() {
-                              ViewState=false;
-                            });
-                          },
-                          child: const Text("전체 우편함",style: TextStyle(color: Colors.black),)
-                      ),
-                      const SizedBox(width: 20,),
-                      OutlinedButton(
-                          onPressed: (){
-                            setState(() {
-                              ViewState=true;
-                            });
-                          },
-                          child: Text("내 우편함",style: TextStyle(color: Colors.black),)
-                      ),
-                    ],
-                  ),
-                ),
                 postViewWidget.PostView(ViewState,user!.uid),
                 const SizedBox(height: 20,)
               ],

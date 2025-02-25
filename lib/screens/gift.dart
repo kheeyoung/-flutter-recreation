@@ -7,6 +7,8 @@ import 'package:myapp/widget/header.dart';
 import 'package:myapp/widget/inputTextFormField.dart';
 import 'package:myapp/widget/myNotification.dart';
 
+import '../method/notification_controller.dart';
+
 class Gift extends StatefulWidget {
   const Gift({super.key});
 
@@ -32,6 +34,7 @@ class _GiftState extends State<Gift> {
   InputTextFormField inputTextFormField = InputTextFormField();
   Header header = Header();
   MyNotification myNotification = MyNotification();
+  NotificationController nc =NotificationController();
 
   final _authentication = FirebaseAuth.instance;
 
@@ -228,6 +231,9 @@ class _GiftState extends State<Gift> {
                                   giftmethod.addLikePoint(
                                       user.uid, recipientUid, SelectedGift);
                                 }
+                                //상대에게 알림보내가
+
+                                nc.sendNotification(title+"이(가) 도착했습니다!", contents, recipientUid);
                                 myNotification.SnackbarBasic(
                                     context, "선물 발송 완료!!");
                               }

@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:get/get.dart';
+import 'notification_controller.dart';
 
 class Usermethod {
+
   //최초 로그인 여부 확인
   Future<int> checkFirstLogIn(userUid) async {
     final db = FirebaseFirestore.instance;
@@ -19,13 +22,15 @@ class Usermethod {
   }
 
   //최초 로그인 유저 등록
-  void RegistUser(userEmail, userUid, userName) {
+  Future<void> RegistUser(userEmail, userUid, userName) async {
+    final NotificationController _notificationController =  NotificationController();
     final db = FirebaseFirestore.instance;
     final userdata = <String, dynamic>{
       "email": userEmail,
       "coin": 0,
       "uid": userUid,
-      "name": userName
+      "name": userName,
+      "messageToken": await _notificationController.getToken()
     };
     db
         .collection("user")
@@ -43,24 +48,43 @@ class Usermethod {
         coin = querySnapshot.data()!["coin"];
       });
     } catch (e) {
+      print("-----------");
       print(e);
     }
     return coin;
   }
 
   //코인 사용
-  Future<int> useCoinToGacha(userUid) async {
+  Future<int> useCoinToGacha(userUid, int num) async {
     int coin = 0;
     try {
       final db = FirebaseFirestore.instance;
 
       coin = await getCoin(userUid);
-      if (coin >= 5) {
+      if (coin >= num) {
         //코인이 5 이상 있으면 차감 후 1 리턴
         final bucket = db.collection("user");
-        await bucket.doc(userUid).update({"coin": coin - 5});
+        await bucket.doc(userUid).update({"coin": coin - num});
         return 1;
       }
+    } catch (e) {
+
+    }
+    //코인이 없으면 0 리턴
+    return 0;
+  }
+  //코인 사용
+  Future<int> useCoin(userUid, input) async {
+    int coin = 0;
+    try {
+      final db = FirebaseFirestore.instance;
+
+      coin = await getCoin(userUid);
+
+        final bucket = db.collection("user");
+        await bucket.doc(userUid).update({"coin": coin - input});
+        return 1;
+
     } catch (e) {
       print(e);
     }
@@ -262,6 +286,8 @@ class Usermethod {
 
     return itemList;
   }
+
+
 
 
 
