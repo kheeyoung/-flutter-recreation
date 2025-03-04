@@ -83,7 +83,7 @@ class _LikepointState extends State<Likepoint> {
                             )),
                             DataColumn(label:SizedBox(
                               width: 50,
-                              child: Text('이름'),
+                              child: Text(''),
                             ))
                           ],
                           rows: datacelldata
@@ -91,7 +91,8 @@ class _LikepointState extends State<Likepoint> {
                     );
                   }
                   return Text("loading...");
-                })
+                }),
+
           ])),
     );
   }

@@ -1,8 +1,7 @@
-import 'dart:collection';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:image_picker/image_picker.dart';
+import 'package:myapp/method/itemMethod.dart';
 import '../method/boardMethod.dart';
 import '../method/userMethod.dart';
 import '../widget/header.dart';
@@ -20,6 +19,8 @@ class _ItemState extends State<Item> {
   MyNotification myNotification =MyNotification();
   Header header=Header();
   Boardmethod boardmethod=Boardmethod();
+  Itemmethod im = Itemmethod();
+
   @override
   Widget build(BuildContext context) {
     final user = _authentication.currentUser;
@@ -42,9 +43,9 @@ class _ItemState extends State<Item> {
 
                   for(int i=0; i<dataimage.length; i++){
                     //선물 이름
-                    String giftName= snapshot.data[1][i][0];
+                    String giftName= snapshot.data[0][i][0];
                     //선물 url
-                    String giftUrl= snapshot.data[1][i][1];
+                    String giftUrl= snapshot.data[0][i][1];
 
                     datacelldataimage.add(
                         DataRow(cells: [
@@ -135,13 +136,20 @@ class _ItemState extends State<Item> {
                               rows: datacellItem
                           ),
                         ),
+                        OutlinedButton(
+                            onPressed: ()async{
+                              myNotification.SnackbarBasic(context, await im.pickImage(user.uid));
+
+                        },
+                            child: Text("내 특별 선물 등록하기")
+                        )
                       ],
                     ),
                   );
                 } else {
                   return const Text("로딩중");
                 }
-              })
+              }),
       )
     );
   }

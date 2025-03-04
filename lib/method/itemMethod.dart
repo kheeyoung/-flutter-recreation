@@ -1,6 +1,11 @@
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:math';
 import 'package:intl/intl.dart';
+import 'dart:typed_data';
+import 'package:image/image.dart' as img;
 
 class Itemmethod{
   //가챠 뽑기
@@ -69,4 +74,33 @@ class Itemmethod{
 
     return userItem;
   }
+
+
+  Future<String> pickImage(String userUid) async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+
+      final bool uploadResult = await _uploadImage(File(pickedFile.path), userUid);
+      return uploadResult ? "등록 성공" : "등록 실패";
+    }
+
+    return "등록 실패";
+  }
+
+  Future<bool> _uploadImage(File file, userUid) async {
+    try {
+      final storageRef = FirebaseStorage.instance.ref();
+      final imagesRef = storageRef.child('specialgift/$userUid.png');
+      await imagesRef.putFile(file);
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+
+
 }

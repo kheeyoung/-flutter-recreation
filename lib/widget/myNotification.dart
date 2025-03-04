@@ -369,15 +369,16 @@ class MyNotification{
 
   void DialogGacha(BuildContext context, List gift) {
     Map<String,int> myItmeList=Map<String,int>();
-
+    List<Widget> w =[];
     for(int i=0; i<gift.length; i++){
       if(myItmeList.containsKey(gift[i][0])){
         myItmeList[gift[i][0]]=(myItmeList[gift[i][0]]!+1);
+
       }
       else{myItmeList[gift[i][0]]=1;}
     }
     
-    List<Widget> w =[];
+
     w.add(Text("<결과>"));
     for(String s in myItmeList.keys){
       w.add(Text("$s : ${myItmeList[s]}개"));

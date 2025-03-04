@@ -208,7 +208,9 @@ class Usermethod {
           //없으면 새로 등록
           String formattedDate = DateFormat('yyMMddhhmmss').format(DateTime.now());
           try {
-            final imageUrl = await storageRef.child("specialgift/" + giftOwnerName + ".png").getDownloadURL();
+            String imageUrl = await storageRef.child("specialgift/" + giftOwnerUid + ".png").getDownloadURL();
+
+            print(imageUrl);
             final data = <String, dynamic>{
               "giftName" : giftOwnerName+"의 특별 선물",  //가장 오래된 아이템부터 사용 하니 이름만 있어도 되게 함)
               "time" : formattedDate,
