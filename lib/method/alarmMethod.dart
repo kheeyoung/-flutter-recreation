@@ -28,7 +28,7 @@ class AlarmMethod{
     return result;
   }
 
-  Future<void> addAlarm(pa) async {
+  Future<void> addAlarm(pa, String receiver) async {
     final user = _authentication.currentUser;
     try{
       final db = await FirebaseFirestore.instance;
@@ -39,7 +39,7 @@ class AlarmMethod{
         "date": pa.date
       };
 
-      db.collection("alarm").doc(user!.uid).collection("alarm").doc(pa.date).set(MyAlarm)
+      db.collection("alarm").doc(receiver).collection("alarm").doc(pa.date).set(MyAlarm)
           .onError((e, _) => print("Error writing document: $e"));
     }
     catch(e){

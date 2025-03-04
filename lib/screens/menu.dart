@@ -34,134 +34,136 @@ class _MenuState extends State<Menu> {
         backgroundColor: Colors.white,
         appBar:header.basicHeader(context,"메뉴",_authentication),
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              //1행
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  //가챠 버튼
-                  Column(
-                    children: [
-                      IconButton(
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(    //가챠창으로 이동
-                              builder: (context){
-                                return const Gacha();
-                              }));
-                        },
-                        icon: Icon(Icons.card_giftcard,size: 80,),tooltip: "가챠",),
-                      Text("GACHA")
-                    ],
-                  ),
-                  SizedBox(width: 20,),
-                  //선물 버튼
-                  Column(
-                    children: [
-                      IconButton(
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(    //가챠창으로 이동
-                              builder: (context){
-                                return const Gift();
-                              }));
-                        },
-                        icon: Icon(Icons.send,size: 80,),tooltip: "선물",),
-                      Text("GIFT")
-                    ],
-                  ),
-                  SizedBox(width: 20,),
-                  //택배
-                  Column(
-                    children: [
-                      IconButton(
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(    //가챠창으로 이동
-                              builder: (context){
-                                return const Board();
-                              }));
-                        },
-                        icon: Icon(Icons.local_post_office_rounded,size: 80,),tooltip: "택배 보관함",),
-                      Text("PARCEL")
-                    ],
-                  ),
-                ],
-              ),
-
-              const SizedBox(
-                height: 15.0,
-              ),
-              //2행
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  //마이룸
-                  Column(
-                    children: [
-                      IconButton(
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(    //가챠창으로 이동
-                              builder: (context){
-                                return const Myroom();
-                              }));
-                        },
-                        icon: Icon(Icons.door_back_door,size: 80,),tooltip: "마이룸",),
-                      Text("MY ROOM")
-                    ],
-                  ),
-                  SizedBox(width: 20,),
-                  //맵
-                  Column(
-                    children: [
-                      IconButton(
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(    //가챠창으로 이동
-                              builder: (context){
-                                return const MyMap();
-                              }));
-                        },
-                        icon: Icon(Icons.map,size: 80,),tooltip: "맵",),
-                      Text("MAP")
-                    ],
-                  ),
-                  SizedBox(width: 20,),
-                  //미니게임
-                  Column(
-                    children: [
-                      IconButton(
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(    //미니겜창으로 이동
-                          builder: (context){
-                            return Minigame();
-                          }));
-
-                        },
-                        icon: Icon(Icons.games_outlined,size: 80,),tooltip: "mini Game",),
-                      Text("Mini Game")
-                    ],
-                  ),
-                ],
-              ),
-
-              //3핼
-              Row(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                //1행
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    //설정
+                    //가챠 버튼
                     Column(
                       children: [
                         IconButton(
                           onPressed: (){
-                            myNotification.DialogToCheck(context,0,Masterpage());
+                            Navigator.push(context, MaterialPageRoute(    //가챠창으로 이동
+                                builder: (context){
+                                  return const Gacha();
+                                }));
                           },
-                          icon: Icon(Icons.add,size: 80,),tooltip: "",),
-
+                          icon: Icon(Icons.card_giftcard,size: 80,),tooltip: "가챠",),
+                        Text("GACHA")
                       ],
                     ),
-                  ]
-              )
-
-            ],
+                    SizedBox(width: 20,),
+                    //선물 버튼
+                    Column(
+                      children: [
+                        IconButton(
+                          onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(    //가챠창으로 이동
+                                builder: (context){
+                                  return const Gift();
+                                }));
+                          },
+                          icon: Icon(Icons.send,size: 80,),tooltip: "선물",),
+                        Text("GIFT")
+                      ],
+                    ),
+                    SizedBox(width: 20,),
+                    //택배
+                    Column(
+                      children: [
+                        IconButton(
+                          onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(    //가챠창으로 이동
+                                builder: (context){
+                                  return const Board();
+                                }));
+                          },
+                          icon: Icon(Icons.local_post_office_rounded,size: 80,),tooltip: "택배 보관함",),
+                        Text("PARCEL")
+                      ],
+                    ),
+                  ],
+                ),
+            
+                const SizedBox(
+                  height: 15.0,
+                ),
+                //2행
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    //마이룸
+                    Column(
+                      children: [
+                        IconButton(
+                          onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(    //가챠창으로 이동
+                                builder: (context){
+                                  return const Myroom();
+                                }));
+                          },
+                          icon: Icon(Icons.door_back_door,size: 80,),tooltip: "마이룸",),
+                        Text("MY ROOM")
+                      ],
+                    ),
+                    SizedBox(width: 20,),
+                    //맵
+                    Column(
+                      children: [
+                        IconButton(
+                          onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(    //가챠창으로 이동
+                                builder: (context){
+                                  return const MyMap();
+                                }));
+                          },
+                          icon: Icon(Icons.map,size: 80,),tooltip: "맵",),
+                        Text("MAP")
+                      ],
+                    ),
+                    SizedBox(width: 20,),
+                    //미니게임
+                    Column(
+                      children: [
+                        IconButton(
+                          onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(    //미니겜창으로 이동
+                            builder: (context){
+                              return Minigame();
+                            }));
+            
+                          },
+                          icon: Icon(Icons.games_outlined,size: 80,),tooltip: "mini Game",),
+                        Text("Mini Game")
+                      ],
+                    ),
+                  ],
+                ),
+            
+                //3핼
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      //설정
+                      Column(
+                        children: [
+                          IconButton(
+                            onPressed: (){
+                              myNotification.DialogToCheck(context,0,Masterpage());
+                            },
+                            icon: Icon(Icons.add,size: 80,),tooltip: "",),
+            
+                        ],
+                      ),
+                    ]
+                )
+            
+              ],
+            ),
           ),
         )
     );

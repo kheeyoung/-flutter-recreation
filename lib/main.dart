@@ -1,4 +1,6 @@
+import 'package:myapp/method/alarmMethod.dart';
 import 'package:myapp/method/notification_controller.dart';
+import 'package:myapp/method/userMethod.dart';
 import 'package:myapp/screens/loading.dart';
 import 'package:myapp/screens/menu.dart';
 import 'package:flutter/material.dart';
@@ -41,20 +43,23 @@ class MyApp extends StatelessWidget {
           if(snapshot.hasData){   //스냅샷이 데이터가 있다면 (=로그인 되어 있다면)
 
             Keymethod keymethod= Keymethod();
+            Usermethod usermethod = Usermethod();
 
             return FutureBuilder(//메뉴 리턴
-              future: Future.wait([keymethod.checkIsOk()]),
+              future: Future.wait([keymethod.checkIsOk(), usermethod.UpdateUserMessageToken()]),
               builder: (BuildContext context, AsyncSnapshot snapshotF) {
                 if(snapshotF.hasData){
+                  snapshotF.data![1];
                   bool state= snapshotF.data![0][0];
+
+
                   if(!state){
 
                     return Menu();
-                    //Notok(ExitKey:snapshotF.data![0][1]);
+                    //
                   }
                   else{
-
-                    return Menu();
+                    return Notok(ExitKey:snapshotF.data![0][1]);
                   }
                 }
                 else{

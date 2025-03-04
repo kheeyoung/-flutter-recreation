@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
@@ -287,6 +288,31 @@ class Usermethod {
     );
 
     return itemList;
+  }
+
+  Future<void>UpdateUserMessageToken() async{
+
+    final authentication = FirebaseAuth.instance;
+    final user = authentication.currentUser;
+    final db = FirebaseFirestore.instance;
+    final NotificationController notificationController =  NotificationController();
+    String messageToken = "";
+    await db.collection("user").where("uid", isEqualTo: user!.uid).get().then(
+          (querySnapshot) async {
+            messageToken = querySnapshot.docs[0]["messageToken"];
+
+
+            if(messageToken!= await notificationController.getToken()){
+
+              final bucket = db.collection("user");
+              await bucket.doc(user!.uid).update({"messageToken": await notificationController.getToken()});
+
+            }
+
+      },
+      onError: (e) => print("Error completing: $e"),
+    );
+
   }
 
 
