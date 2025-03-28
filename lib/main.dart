@@ -1,16 +1,15 @@
-import 'package:myapp/method/alarmMethod.dart';
-import 'package:myapp/method/notification_controller.dart';
-import 'package:myapp/method/userMethod.dart';
-import 'package:myapp/screens/loading.dart';
-import 'package:myapp/screens/menu.dart';
+import 'package:myapp/service/notification_controller.dart';
+import 'package:myapp/service/userMethod.dart';
+import 'package:myapp/model/loading.dart';
+import 'package:myapp/model/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:myapp/screens/login.dart';
-import 'package:myapp/screens/notOk.dart';
+import 'package:myapp/model/login.dart';
+import 'package:myapp/model/notOk.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'method/keyMethod.dart';
+import 'service/keyMethod.dart';
 
 
 
