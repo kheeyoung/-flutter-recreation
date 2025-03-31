@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/model/myRoom/bank/bank.dart';
 import 'package:myapp/model/myRoom/item.dart';
+import 'package:myapp/service/weatherService.dart';
 import '../../service/boardMethod.dart';
 import '../../service/userMethod.dart';
 import '../widget/header.dart';
@@ -21,6 +22,7 @@ class _MyroomState extends State<Myroom> {
   MyNotification myNotification =MyNotification();
   Header header=Header();
   Boardmethod boardmethod=Boardmethod();
+  Weatherservice ws = Weatherservice();
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +37,13 @@ class _MyroomState extends State<Myroom> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  FutureBuilder(future: ws.getWeather(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if(snapshot.hasData){
+                      return Text(snapshot.data.temp.toString());
+                    }
+                    return Text("loading...");
+                      }),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
