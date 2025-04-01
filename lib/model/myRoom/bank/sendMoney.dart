@@ -124,7 +124,7 @@ class _SendmoneyState extends State<Sendmoney> {
                               ),
 
                               SizedBox(
-                                width: MediaQuery.of(context).size.width*0.55 ,
+                                width: MediaQuery.of(context).size.width*0.5 ,
                                 child: TextFormField(
                                   initialValue: memo,
                                   style: const TextStyle(

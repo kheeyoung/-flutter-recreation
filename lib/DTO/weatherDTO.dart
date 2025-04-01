@@ -1,10 +1,20 @@
-class Weatherdto{
-  double _temp;
-  String _condition;
-  int _conditionId;
-  int _humidity;
+import 'package:flutter/material.dart';
 
-  Weatherdto(this._temp, this._condition, this._conditionId, this._humidity);
+class Weatherdto{
+  String _main;
+  double _temp;
+  String _description;
+  int _humidity;
+  String _icon;
+
+  Weatherdto(
+      this._main, this._temp, this._description, this._humidity, this._icon);
+
+  String get main => _main;
+
+  set main(String value) {
+    _main = value;
+  }
 
   double get temp => _temp;
 
@@ -12,7 +22,11 @@ class Weatherdto{
     _temp = value;
   }
 
-  String get condition => _condition;
+  String get description => _description;
+
+  set description(String value) {
+    _description = value;
+  }
 
   int get humidity => _humidity;
 
@@ -20,13 +34,9 @@ class Weatherdto{
     _humidity = value;
   }
 
-  int get conditionId => _conditionId;
+  String get icon => _icon;
 
-  set conditionId(int value) {
-    _conditionId = value;
-  }
-
-  set condition(String value) {
-    _condition = value;
+  set icon(String value) {
+    _icon = value;
   }
 }
