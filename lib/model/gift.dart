@@ -178,22 +178,25 @@ class _GiftState extends State<Gift> {
                                 return;
                               }
 
+                              if(post.getContents().isEmpty ||
+                                  post.getTitle().isEmpty||
+                                  post.getGiftName().isEmpty||
+                                  post.getRecipientName().isEmpty
+                              ){
+                                mn.SnackbarBasic(context, "제목, 수신인, 선물, 내용은 필수 항목 입니다.");
+                                return;
+                              }
+
                               setState(() {loading=false;});
 
                               post.setRecipientUid(snapshot.data[0][post.getRecipientName()]);
                               post.setSenderUid(user!.uid);
 
                               //선물
-                              if(! await gm.sendGift(post)){
-                                mn.SnackbarBasic(context, "제목, 수신인, 선물, 내용은 필수 항목 입니다.");
-                                return;
-                              }
+                              await gm.sendGift(post);
 
                               //아이템 사용 전환 (가장 오래 된 것 부터 사용)
-                              if (await gm.useItem(post.getGiftName(), user.uid) != 0) {
-                                mn.SnackbarBasic(context, "오류! 새로고침 후 다시 시도해주세요. 오류가 계속 될 경우 총괄계 제보 바랍니다.");
-                                return;
-                              }
+                              await gm.useItem(post.getGiftName(), user.uid);
 
                               //호감도
                               if (post.getRecipientUid() == snapshot.data![1][post.getGiftName()]) {

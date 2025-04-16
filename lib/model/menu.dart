@@ -5,11 +5,12 @@ import 'package:myapp/model/gift.dart';
 import 'package:myapp/model/board.dart';
 import 'package:myapp/model/master/masterPage.dart';
 import 'package:myapp/model/miniGame.dart';
-import 'package:myapp/model/myMap.dart';
+
 import 'package:myapp/model/myRoom/myroom.dart';
 import 'package:myapp/model/widget/header.dart';
 import 'package:myapp/model/widget/myNotification.dart';
 
+import '../model/map/myMap.dart';
 import '../service/ectMethod.dart';
 import '../service/keyMethod.dart';
 
@@ -118,7 +119,7 @@ class _MenuState extends State<Menu> {
                           onPressed: (){
                             Navigator.push(context, MaterialPageRoute(    //가챠창으로 이동
                                 builder: (context){
-                                  return const MyMap();
+                                  return MyMap();
                                 }));
                           },
                           icon: Icon(Icons.map,size: 80,),tooltip: "맵",),

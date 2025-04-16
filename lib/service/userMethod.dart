@@ -28,7 +28,6 @@ class Usermethod {
     final db = FirebaseFirestore.instance;
     final userdata = <String, dynamic>{
       "email": userEmail,
-      "coin": 0,
       "uid": userUid,
       "name": userName,
       "messageToken": await _notificationController.getToken()
@@ -185,7 +184,6 @@ class Usermethod {
   }
 
   Future<void>UpdateUserMessageToken() async{
-
     final authentication = FirebaseAuth.instance;
     final user = authentication.currentUser;
     final db = FirebaseFirestore.instance;
@@ -193,11 +191,11 @@ class Usermethod {
     String messageToken = "";
     await db.collection("user").where("uid", isEqualTo: user!.uid).get().then(
           (querySnapshot) async {
+
+            if(querySnapshot.size==0){return;}
             messageToken = querySnapshot.docs[0]["messageToken"];
 
-
             if(messageToken!= await notificationController.getToken()){
-
               final bucket = db.collection("user");
               await bucket.doc(user!.uid).update({"messageToken": await notificationController.getToken()});
 
@@ -206,6 +204,7 @@ class Usermethod {
       },
       onError: (e) => print("Error completing: $e"),
     );
+    
 
   }
 

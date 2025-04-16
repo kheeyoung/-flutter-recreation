@@ -122,6 +122,16 @@ class _ItemState extends State<Item> {
                         SizedBox(width : MediaQuery.of(context).size.width * 0.8,
                             child: Divider(color: Colors.black,)),
 
+                        OutlinedButton(
+                            onPressed: ()async{
+                              myNotification.SnackbarBasic(context, await im.pickImage(user.uid));
+
+                            },
+                            child: Text("내 특별 선물 등록하기")
+                        ),
+
+                        SizedBox(height: 20,),
+
                         Text("[보유 아이템]",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
 
                         SizedBox(
@@ -136,13 +146,6 @@ class _ItemState extends State<Item> {
                               ],
                               rows: datacellItem
                           ),
-                        ),
-                        OutlinedButton(
-                            onPressed: ()async{
-                              myNotification.SnackbarBasic(context, await im.pickImage(user.uid));
-
-                        },
-                            child: Text("내 특별 선물 등록하기")
                         )
                       ],
                     ),

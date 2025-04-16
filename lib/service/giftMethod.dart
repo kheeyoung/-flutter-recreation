@@ -26,11 +26,7 @@ class Giftmethod{
   }
 
 
-  Future<bool> sendGift(Post p) async{
-    if (p.getTitle().isEmpty &&
-        p.getContents().isEmpty &&
-        p.getGiftName() != "" &&
-        p.getRecipientName() != "") {return false;}
+  Future<void> sendGift(Post p) async{
 
     final db = FirebaseFirestore.instance;
     String formattedDate = DateFormat('yyMMddHHmmss').format(DateTime.now());
@@ -51,9 +47,8 @@ class Giftmethod{
     try {
       await db.collection("board").doc(formattedDate).set(userdata);
     }
-    catch(e){return false;}
+    catch(e){}
 
-    return true;
   }
 
   //아이템 사용

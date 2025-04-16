@@ -102,6 +102,7 @@ class _LoginState extends State<Login> {
                                 result= "로그인 성공!";
                               }
                               on FirebaseAuthException catch (e) {
+                                print("로그인 실패: $e");
                                 result= "이메일과 패스워드를 확인해주세요.";
                               }
                             }

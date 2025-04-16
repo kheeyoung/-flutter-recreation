@@ -93,29 +93,6 @@ class _MasterpageState extends State<Masterpage> {
                     children: [
                       IconButton(
                         onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(    //가챠창으로 이동
-                              builder: (context){
-                                return Movebody();
-                              }));
-                        },
-                        icon: Icon(Icons.man,size: 80,),tooltip: "Body",),
-                      Text("Body")
-                    ],
-                  ),
-                  SizedBox(width: 20,),
-
-
-                ],
-              ),
-              //3행
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  //마이룸
-                  Column(
-                    children: [
-                      IconButton(
-                        onPressed: (){
                           Navigator.push(context, MaterialPageRoute(
                               builder: (context){
                                 return const Alarmmanager();
@@ -125,10 +102,12 @@ class _MasterpageState extends State<Masterpage> {
                       Text("Alarm")
                     ],
                   ),
+                  SizedBox(width: 20,),
 
 
                 ],
               ),
+
 
             ],
           ),

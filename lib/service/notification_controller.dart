@@ -139,7 +139,6 @@ class NotificationController extends GetxController {
   //선물보내면 상대에게 알림보내기
   Future<void> sendNotification(
       String title, String contents, String receiver) async {
-    Usermethod um = Usermethod();
     try {
 
       // 메시지 데이터 구성
@@ -149,7 +148,8 @@ class NotificationController extends GetxController {
         "receiverId": receiver,
       };
       //파이어베이스에 알림 저장
-      PersonalAlarm pa = PersonalAlarm(title, contents, DateFormat('yyMMddhhmmss').format(DateTime.now()));
+      PersonalAlarm pa = PersonalAlarm(title, contents, DateFormat('yyMMddHHmmss').format(DateTime.now()));
+
       await am.addAlarm(pa,receiver);
 
       // HTTP POST 요청 보내기

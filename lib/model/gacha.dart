@@ -81,7 +81,7 @@ class _GachaState extends State<Gacha> {
                                 });
                               },
                               child: Text(
-                                '가챠 ${num.toString()}회',
+                  load ? "Loading...":'가챠 ${num.toString()}회',
                                 style: TextStyle(color: Colors.black),
                               )),
 

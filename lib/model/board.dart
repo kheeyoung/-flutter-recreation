@@ -62,17 +62,25 @@ class _BoardState extends State<Board> {
         ],
 
       ),
-      body: SingleChildScrollView(
+      body: RefreshIndicator(
+          backgroundColor: Colors.transparent,
+          color: Colors.white,
+          onRefresh: () async {
+            setState(() {});
+          },
+          child: ListView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              children: [
+              postViewWidget.PostView(ViewState,user!.uid),
+              const SizedBox(height: 20,)
 
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            postViewWidget.PostView(ViewState,user!.uid),
-            const SizedBox(height: 20,)
-          ],
-        ),
+              ]
+          )
       )
+
+
+
+
       );
   }
 }

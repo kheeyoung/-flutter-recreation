@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +28,7 @@ class _SendmoneyState extends State<Sendmoney> {
   Usermethod um = Usermethod();
   ListViewWidget listViewWidget = ListViewWidget();
   InputTextFormField itff = InputTextFormField();
-  MyNotification myNotification = MyNotification();
+  MyNotification mn = MyNotification();
   CoinService cs = CoinService();
   NotificationController nc = NotificationController();
   Dropdownwidget dw = Dropdownwidget();
@@ -146,24 +148,29 @@ class _SendmoneyState extends State<Sendmoney> {
                           ),
                         ),
 
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 20,),
                         OutlinedButton(
                             onPressed: () async {
                               if(loading){return;}
+                              if(selectedUser=="" || coin==0){
+                                mn.SnackbarBasic(context, "수신인과 입금 금액을 입력해주세요.");
+                                return;}
                               setState(() {
                                 loading=true;
                               });
                               if(memo==""){memo=" ";}
                               String selectedUserUid = snapshot.data[0][selectedUser];
                               String myName= await um.getUserNameByUid(user!.uid);
-                              await cs.sendCoinByUser(coin, selectedUserUid, context);
-                              await cs.makeInquiry(selectedUserUid,Inquirydto(coin, memo, myName, ""));
-                              await cs.makeInquiry(user!.uid,Inquirydto(-coin, memo, myName, ""));
-                              await nc.sendNotification("$coin 코인이 입금되었습니다.", memo, selectedUserUid);
-                              await am.addAlarm(PersonalAlarm("$coin 코인이 입금되었습니다.", memo, DateFormat('yyMMddHHmmss').format(DateTime.now())), selectedUserUid);
-                              setState(() {
-                                loading=false;
-                              });
+                              if(await cs.sendCoinByUser(user!.uid, coin, selectedUserUid, context)){
+                                await cs.makeInquiry(user!.uid,Inquirydto(-coin, memo, myName, ""));
+
+                                sleep(const Duration(seconds: 1));
+                                await cs.makeInquiry(selectedUserUid,Inquirydto(coin, memo, myName, ""));
+
+                                await nc.sendNotification("$coin 코인이 입금되었습니다.", memo, selectedUserUid);
+                              }
+
+                              setState(() {loading=false;});
                             },
                             child: const Text("송금하기", style: TextStyle(color: Colors.black),
 

@@ -15,10 +15,13 @@ class AlarmMethod{
           (querySnapshot) {
 
         for (int i=0; i<querySnapshot.size; i++) {
+
+          String time =querySnapshot.docs[i].data()["date"].toString();
+          
           PersonalAlarm pa = PersonalAlarm(
               querySnapshot.docs[i].data()["title"],
               querySnapshot.docs[i].data()["contents"],
-              querySnapshot.docs[i].data()["date"]
+              "${time.substring(0,2)} ${time.substring(2,4)}/${time.substring(4,6)} ${time.substring(6,8)}:${time.substring(8,10)} ${time.substring(10,12)}"
           );
           result.add(pa);
         }
@@ -29,7 +32,6 @@ class AlarmMethod{
   }
 
   Future<void> addAlarm(pa, String receiver) async {
-    final user = _authentication.currentUser;
     try{
       final db = await FirebaseFirestore.instance;
 

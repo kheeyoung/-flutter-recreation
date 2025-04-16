@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../service/mapMethod.dart';
+import '../../service/mapService.dart';
 import '../widget/header.dart';
 import '../widget/inputTextFormField.dart';
 import '../widget/myNotification.dart';
@@ -30,7 +30,7 @@ class _MovebodyState extends State<Movebody> {
   String item5="";
   String txt="";
 
-  Mapmethod mapmethod= Mapmethod();
+
 
 
   @override
@@ -181,19 +181,7 @@ class _MovebodyState extends State<Movebody> {
                 ),
                 OutlinedButton(
                     onPressed: ()async{
-                      int num=await mapmethod.changebody(Room,item1,item2,item3,item4,item5,txt);
-                      String result=num==1 ? "변경 성공!": "오류!";
-                      myNotification.SnackbarBasic(context, result);
 
-                      setState(() {
-                        Room="";
-                        item1="";
-                        item2="";
-                        item3="";
-                        item4="";
-                        item5="";
-                        txt="";
-                      });
                     },
                     child: Text("변경")
                 ),

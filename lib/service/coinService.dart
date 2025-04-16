@@ -74,6 +74,7 @@ class CoinService{
       final db = FirebaseFirestore.instance;
       await db.collection("bank").doc(userUid).get().then((querySnapshot) {
         coin = querySnapshot.data()!["coin"];
+        return coin;
       });
     } catch (e) {}
     return coin;
@@ -96,15 +97,18 @@ class CoinService{
   }
 
   //유저 간 입금
-  Future<void> sendCoinByUser(int input, String selectedUserUid, context)async{
-    int myCoin = await getCoin(user!.uid);
+  Future<bool> sendCoinByUser(String myUid, int input, String selectedUserUid, context)async{
+    int myCoin = await getCoin(myUid);
+
     if (myCoin >= input) {
-      changeCoin(myCoin-input, user!.uid);
+      await changeCoin(myCoin-input, myUid);
       int orgin = await getCoin(selectedUserUid);
-      changeCoin(orgin+input, selectedUserUid);
+      await changeCoin(orgin+input, selectedUserUid);
       mn.SnackbarBasic(context, "입금 성공 (잔여 코인 : ${myCoin-input})");
+      return true;
     } else {
-      mn.SnackbarBasic(context, "잔액이 부족합니다!");
+      mn.SnackbarBasic(context, "잔액이 부족합니다! (보유 코인 : $myCoin)");
+      return false;
     }
   }
 
@@ -119,6 +123,7 @@ class CoinService{
     };
     await db.collection("bank").doc(userUid).collection("inquiry").doc(formattedDate).set(data).onError((e, _)
     => print("Error writing document: $e"));
+
   }
 
 
@@ -171,6 +176,10 @@ class CoinService{
             break;
         }
         changeCoin(orgin+gain, uid);
+
+        if(gain>0){
+          makeInquiry(user!.uid, Inquirydto(gain, "룰렛", "System", ""));
+        }
 
         mn.DialogBasic(context, "결과 : $text \n 사용 코인 : $input \n 획득 코인 :$gain \n 총합 : ${gain-input}");
 
