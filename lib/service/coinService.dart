@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+
 import 'package:intl/intl.dart';
 import 'package:myapp/DTO/inquiryDTO.dart';
 import 'package:myapp/model/widget/myNotification.dart';
 import 'notification_controller.dart';
-import 'userMethod.dart';
+
 
 
 class CoinService{
@@ -60,6 +60,7 @@ class CoinService{
     try {
       final db = FirebaseFirestore.instance;
       await db.collection("bank").doc(uid).update({"coin": coin});
+
 
       return true;
     } catch (e) {

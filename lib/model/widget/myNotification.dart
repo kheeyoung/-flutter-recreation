@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/DTO/lotteryDTO.dart';
+import 'package:myapp/service/coinService.dart';
+import 'package:myapp/service/lotteryService.dart';
 import '../../service/boardMethod.dart';
 import '../../service/keyMethod.dart';
 import '../../service/userMethod.dart';
@@ -12,6 +15,8 @@ class MyNotification{
   InputTextFormField inputTextFormField=InputTextFormField();
   Keymethod keymethod=Keymethod();
   Usermethod user= Usermethod();
+
+
 
   SnackbarBasic(context,textContents){
     return ScaffoldMessenger.of(context).showSnackBar(
@@ -450,6 +455,30 @@ class MyNotification{
       },
     );
 
+  }
+
+
+
+  void wigetListDialog(List<Widget> w , context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+
+
+        return Dialog(
+          child: Container(
+            margin: EdgeInsets.all(10),
+            child: SingleChildScrollView(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: w
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
 }

@@ -4,7 +4,7 @@ import 'package:myapp/model/gacha.dart';
 import 'package:myapp/model/gift.dart';
 import 'package:myapp/model/board.dart';
 import 'package:myapp/model/master/masterPage.dart';
-import 'package:myapp/model/miniGame.dart';
+import 'package:myapp/model/miniGame/miniGame.dart';
 
 import 'package:myapp/model/myRoom/myroom.dart';
 import 'package:myapp/model/widget/header.dart';

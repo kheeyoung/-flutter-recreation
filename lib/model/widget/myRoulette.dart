@@ -114,18 +114,23 @@ class _MyRouletteState extends State<MyRoulette> with TickerProviderStateMixin {
                       return;
                     }
 
-                    cs.changeCoin(snapshot.data - input, user!.uid);
+                    await cs.changeCoin(snapshot.data - input, user!.uid);
+                    await cs.makeInquiry(user!.uid, Inquirydto(-input, "룰렛", "System", ""));
 
                     int result = _random.nextInt(6);
                     await controller.rollTo(result,
                         offset: _random.nextDouble());
 
-                    cs.makeInquiry(user!.uid, Inquirydto(-input, "룰렛", "System", ""));
+
                     coin = await cs.getRoulette(snapshot.data - input, input, result, user!.uid, context);
 
 
 
                     load = false;
+
+                    setState(() {
+
+                    });
                   },
                   child: Text('Go!!'),
                 )

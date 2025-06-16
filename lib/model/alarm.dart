@@ -13,10 +13,12 @@ class _AlarmState extends State<Alarm> {
   AlarmMethod am = AlarmMethod();
   MyNotification mn = MyNotification();
 
+  bool isReversed = false;
 
   @override
   Widget build(BuildContext context) {
-    List<DataRow> data = [];
+
+
     return Scaffold(
         appBar: AppBar(
           title: const Text("Notifications"),
@@ -24,8 +26,12 @@ class _AlarmState extends State<Alarm> {
           actions: [
             IconButton(
                 onPressed: () {
-                  data = List.from(data.reversed);
-                  setState(() {});
+
+                  setState(() {
+
+                    isReversed =!isReversed;
+
+                  });
                 },
                 icon: const Icon(
                   Icons.swap_vert,
@@ -37,8 +43,8 @@ class _AlarmState extends State<Alarm> {
             future: am.getPersonalAlarm(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
-                data = [];
-                if (data.isEmpty) {
+                List<DataRow> data = [];
+
                   for (int i = 0; i < snapshot.data.length; i++) {
                     data.add(DataRow(
                         onSelectChanged: (newValue) {
@@ -67,8 +73,12 @@ class _AlarmState extends State<Alarm> {
                               ))),
                         ]));
                   }
-                  data = List.from(data.reversed);
-                }
+
+
+
+                  if(isReversed){
+                    data = List.from(data.reversed);
+                  }
 
                 return Center(
                   child: Container(

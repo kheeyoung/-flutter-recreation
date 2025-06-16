@@ -1,8 +1,18 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:myapp/DTO/inquiryDTO.dart';
 import 'package:myapp/DTO/petDTO.dart';
+import 'package:myapp/model/widget/myNotification.dart';
+import 'package:myapp/service/coinService.dart';
 
 class PetService{
+
+  CoinService cs = CoinService();
+  MyNotification mn = MyNotification();
+
   Future<petDTO> getMyPet(userUid)async{
     petDTO pd = petDTO("", 0 , 0, "");
     try {
@@ -14,7 +24,9 @@ class PetService{
         pd.state=querySnapshot.data()!["state"].toString();
 
       });
-    } catch (e) {}
+    } catch (e) {
+      print("오류 : "+e.toString());
+    }
 
     return pd;
   }
@@ -29,6 +41,7 @@ class PetService{
     };
     await db.collection("pet").doc(userUid).set(data).onError((e, _)
     => print("Error writing document: $e"));
+    await cs.makeInquiry(userUid, Inquirydto(-10, "Pet 생성", name, ""));
 
   }
 
@@ -54,7 +67,7 @@ class PetService{
     return imageUrls;
   }
 
-  Future<void> feed(String uid, petDTO pd) async{
+  Future<void> feed(String uid, petDTO pd, coin,context) async{
     int exp = pd.exp+10;
     int level =pd.level;
 
@@ -62,13 +75,26 @@ class PetService{
       exp-=100;
       level++;
     }
-    try {
+
+    try{
       final db = FirebaseFirestore.instance;
+      await cs.makeInquiry(uid, Inquirydto(-10, "먹이주기", pd.name, ""));
+      sleep(const Duration(milliseconds: 5));
       await db.collection("pet").doc(uid).update({"exp": exp});
-      await db.collection("pet").doc(uid).update({"level": level});
 
-    } catch (e) {
+      if(level>4){ //최고레벨일 경우 펫의 보은
+        Random _random = Random();
+        int randomCoin =_random.nextInt(150);
+        await cs.changeCoin(coin+randomCoin, uid);
+        await cs.makeInquiry(uid, Inquirydto(randomCoin, "펫의 보은", pd.name, ""));
+        mn.SnackbarBasic(context, "${pd.name}이/가 $randomCoin코인을 가지고 왔습니다.");
+      }
+      else{ //아닐 시 갱신만
+        await db.collection("pet").doc(uid).update({"level": level});
+      }
+    }catch (e) {}
 
-    }
+
+
   }
 }

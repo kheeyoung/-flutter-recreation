@@ -117,7 +117,7 @@ class _LoginState extends State<Login> {
                                   await usermethod.checkFirstLogIn(user!.uid);
                               var Screen;
 
-                              print(FirstLogin);
+
 
                               //최초 로그인의 경우 유저 정보 세팅창으로 이동
                               if (FirstLogin != 1) {

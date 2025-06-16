@@ -31,7 +31,7 @@ class _LikepointState extends State<Likepoint> {
             child: Column(children: [
         
               FutureBuilder(
-                  future: Future.wait([usermethod.getMyLikePoint(user!.uid)]),
+                  future: Future.wait([usermethod.getMyLikePoint(user!.uid), usermethod.getUserNameByUid(user!.uid)]),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.hasData) {
                       //호감도 출력용
@@ -73,7 +73,18 @@ class _LikepointState extends State<Likepoint> {
                           )),
                         ]));
                       }
-                      return DataTable(
+                      return Column(
+                          children: [
+                            Container(
+                                margin : EdgeInsets.fromLTRB(20, 10, 20, 10),
+                                child: Divider()
+                            ),
+                            Text(snapshot.data[1],style: TextStyle(fontSize: 20),),
+                            Container(
+                              margin : EdgeInsets.fromLTRB(20, 10, 20, 10),
+                              child: Divider()
+                            ),
+                            DataTable(
                             columns: const [
                               DataColumn(label:SizedBox(
                                 width: 50,
@@ -91,6 +102,8 @@ class _LikepointState extends State<Likepoint> {
                             ],
                             rows: datacelldata
         
+                      )
+                          ]
                       );
                     }
                     return Text("loading...");

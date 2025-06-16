@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:myapp/model/widget/myRoulette.dart';
 
 
-class Minigame extends StatefulWidget {
-  const Minigame({super.key});
+class Roulette extends StatefulWidget {
+  const Roulette({super.key});
 
 
   @override
-  State<Minigame> createState() => _MinigameState();
+  State<Roulette> createState() => _RouletteState();
 }
 
-class _MinigameState extends State<Minigame> {
+class _RouletteState extends State<Roulette> {
   MyRoulette mr = MyRoulette();
 
 

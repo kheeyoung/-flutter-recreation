@@ -18,7 +18,7 @@ class Header {
   AppBar basicHeader(context,text,authentication){
     return AppBar(
       title: Text(text,style: TextStyle(color: Colors.white),),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black45,
 
       actions: [
 
