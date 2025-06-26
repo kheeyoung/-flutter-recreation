@@ -28,7 +28,10 @@ class _GachaState extends State<Gacha> {
   Widget build(BuildContext context) {
     final user = _authentication.currentUser;
     return Scaffold(
-      appBar: header.screenHeader(context, "Gacha"),
+      appBar: header.NotHeader(context, "Gacha",
+          "5코인으로 가챠 1회 뽑기가 가능합니다. \n"
+              "둥근 화살표를 눌러 연속 가챠가 가능합니다. \n"
+              "오류가 발생할 수 있으니 연타는 삼가주세요."),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

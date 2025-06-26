@@ -21,7 +21,9 @@ class _MyMapState extends State<MyMap> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: header.screenHeader(context, "MAP"),
+        appBar: header.NotHeader(context, "Map",
+            "잠긴 구역은 비밀번호로 조사가 가능합니다. \n"
+                "오류가 발생할 수 있으니 연타는 삼가주세요."),
         body: FutureBuilder(
             future: ms.getMapImage(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {

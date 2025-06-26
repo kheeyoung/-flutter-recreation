@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/model/login.dart';
 import 'package:myapp/model/widget/myNotification.dart';
 import '../alarm.dart';
+import '../myRoom/doc/makeDoc/makeDoc.dart';
 
 
 class Header {
@@ -47,5 +48,43 @@ class Header {
     );
   }
 
+  AppBar NotHeader(context,text,content){
+    return AppBar(
+      title: Text(text,style: TextStyle(color: Colors.black),),
+      backgroundColor: Colors.white,
+
+      actions: [
+        IconButton(
+            onPressed:  () => mn.DialogBasic(context, content),
+            icon: const Icon(
+              Icons.question_mark,
+              color: Colors.black54,
+            )
+        ),
+      ],
+    );
+  }
+
+  AppBar DocEditHeader(context,text){
+    return AppBar(
+      title: Text(text,style: TextStyle(color: Colors.black),),
+      backgroundColor: Colors.white,
+
+      actions: [
+        IconButton(
+            onPressed:  () => {
+            Navigator.push(context, MaterialPageRoute(
+            builder: (context){
+            return Makedoc();
+            }))
+            },
+            icon: const Icon(
+              Icons.edit,
+              color: Colors.black54,
+            )
+        ),
+      ],
+    );
+  }
 
 }

@@ -3,6 +3,7 @@ import 'package:myapp/model/miniGame/lottery.dart';
 import 'package:myapp/model/miniGame/roulette.dart';
 import 'package:myapp/model/widget/myRoulette.dart';
 
+import '../widget/header.dart';
 import 'myPet.dart';
 
 
@@ -15,17 +16,20 @@ class Minigame extends StatefulWidget {
 }
 
 class _MinigameState extends State<Minigame> {
-
+  Header header=Header();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: header.screenHeader(context, "Mini Game"),
       body: Center(
         child: Column(
+
           children: [
             //pet
             Row(
+
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Column(
                   children: [

@@ -6,6 +6,7 @@ import 'package:myapp/model/widget/header.dart';
 import 'package:myapp/model/widget/inputTextFormField.dart';
 import 'package:myapp/model/widget/myNotification.dart';
 import 'package:myapp/service/coinService.dart';
+import 'package:myapp/service/wikiService.dart';
 
 import '../service/giftMethod.dart';
 import '../service/keyMethod.dart';
@@ -34,6 +35,7 @@ class _UsersettingState extends State<UserSetting> {
   MyNotification myNotification = MyNotification();
   Keymethod km = Keymethod();
   CoinService cs = CoinService();
+  WikiService ws = WikiService();
 
   int checkItem1 = 0;
   int checkItem2 = 0;
@@ -297,6 +299,9 @@ class _UsersettingState extends State<UserSetting> {
                                     await giftmethod.RegistGift(user!.uid, "1", firstGift, user!.uid); //선물 등록
                                     await giftmethod.RegistGift(user!.uid, "2", secondGift, user!.uid);
                                     await giftmethod.RegistGift(user!.uid, "3", thirdGift, user!.uid);
+
+                                    //위키 생성
+                                    await ws.makeWiki(user!.uid);
 
                                     //계좌 개설
                                     await cs.makeAccount(user!.uid);

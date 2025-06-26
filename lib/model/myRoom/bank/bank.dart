@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/model/myRoom/bank/sendMoney.dart';
+import 'package:myapp/model/widget/header.dart';
 
 import '../../../service/coinService.dart';
 import '../../widget/listViewWidget.dart';
@@ -18,6 +19,7 @@ class _BankState extends State<Bank> {
   CoinService cs = CoinService();
   final user = FirebaseAuth.instance.currentUser;
   ListViewWidget lw =ListViewWidget();
+  Header header = Header();
   bool sort = false;
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,8 @@ class _BankState extends State<Bank> {
     double fullHight =MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: header.NotHeader(context, "Bank",
+          "스크롤로 새로고침이 가능합니다."),
       body: RefreshIndicator(
         backgroundColor: Colors.transparent,
         color: Colors.white,

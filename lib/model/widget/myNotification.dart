@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/DTO/lotteryDTO.dart';
-import 'package:myapp/service/coinService.dart';
-import 'package:myapp/service/lotteryService.dart';
+
+import 'package:myapp/DTO/wikiDTO/sectionDTO.dart';
+
+import 'package:myapp/service/wikiService.dart';
 import '../../service/boardMethod.dart';
 import '../../service/keyMethod.dart';
 import '../../service/userMethod.dart';
@@ -15,6 +17,7 @@ class MyNotification{
   InputTextFormField inputTextFormField=InputTextFormField();
   Keymethod keymethod=Keymethod();
   Usermethod user= Usermethod();
+
 
 
 
@@ -479,6 +482,59 @@ class MyNotification{
         );
       },
     );
+  }
+
+  void DialogDelete(BuildContext context, SectionDto currentSd, String uid, String public) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          child: Container(
+            margin: EdgeInsets.all(10),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(height: 10,),
+                  Text("삭제 하시겠습니까?"),
+                  SizedBox(height: 10,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      OutlinedButton(onPressed: () async {
+                        final db = FirebaseFirestore.instance;
+                        db.collection("wiki").doc(uid).collection(public).doc("document").collection("doc").doc(currentSd.id).delete().then(
+                              (doc) => {},
+                          onError: (e) => print("Error updating document $e"),
+                        );
+                        Navigator.of(context).pop();
+                      }, child: Text("Yes"), ),
+                      SizedBox(width: 10,),
+                      OutlinedButton(onPressed: (){
+                        Navigator.of(context).pop();
+                      }, child: Text("No"), )
+                    ],
+                  ),
+                  SizedBox(height: 10,),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+  void showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // 바깥 클릭 못하게
+      builder: (_) => const Center(child: CircularProgressIndicator()),
+    );
+  }
+
+  void hideLoadingDialog(BuildContext context) {
+    Navigator.of(context, rootNavigator: true).pop();
   }
 
 }

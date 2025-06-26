@@ -25,7 +25,8 @@ class _LikepointState extends State<Likepoint> {
   Widget build(BuildContext context) {
     final user = _authentication.currentUser;
     return Scaffold(
-      appBar: header.screenHeader(context, "호감도 현황"),
+      appBar: header.NotHeader(context, "Like Point",
+          "호감도 5 달성시 특별 선물을 받을 수 있습니다."),
       body: SingleChildScrollView(
         child: Center(
             child: Column(children: [

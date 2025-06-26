@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:myapp/DTO/inquiryDTO.dart';
 import 'package:myapp/DTO/personalAlarm.dart';
+import 'package:myapp/model/widget/header.dart';
 import 'package:myapp/service/alarmMethod.dart';
 
 import '../../../service/coinService.dart';
@@ -33,6 +34,7 @@ class _SendmoneyState extends State<Sendmoney> {
   NotificationController nc = NotificationController();
   Dropdownwidget dw = Dropdownwidget();
   AlarmMethod am = AlarmMethod();
+  Header header = Header();
 
   final user = FirebaseAuth.instance.currentUser;
   String selectedUser = "";
@@ -45,7 +47,10 @@ class _SendmoneyState extends State<Sendmoney> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+        appBar: header.NotHeader(context, "Send Money",
+            "송금시 수령자에게 알림이 갑니다. \n"
+                "메모 미 입력시 기본 텍스트로 전송됩니다.\n"
+                "오류가 발생할 수 있으니 연타는 삼가주세요."),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();

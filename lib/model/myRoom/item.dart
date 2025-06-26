@@ -26,7 +26,8 @@ class _ItemState extends State<Item> {
   Widget build(BuildContext context) {
     final user = _authentication.currentUser;
     return Scaffold(
-      appBar: header.screenHeader(context, '보유 아이템'),
+        appBar: header.NotHeader(context, "Item",
+            "특별 선물은 가장 마지막에 등록한 것으로 지급됩니다."),
       body: SingleChildScrollView(
           child: FutureBuilder(
               future:  Future.wait([usermethod.showMySpecialGift(user!.uid),usermethod.getMyItem(user!.uid)]),

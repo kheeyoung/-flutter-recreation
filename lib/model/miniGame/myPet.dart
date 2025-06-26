@@ -37,7 +37,12 @@ class _MypetState extends State<Mypet> {
             if(pd.name==""){
               
               return Scaffold(
-                appBar: header.screenHeader(context, 'My Pet'),
+                appBar: header.NotHeader(context, "Pet",
+                    "10 코인으로 밥 주기가 가능합니다. \n"
+                        "경험치가 100을 넘기면 레벨업 합니다. \n"
+                        "4레벨 이상 도달시 펫이 보은을 합니다. \n"
+                        "이름은 변경이 불가합니다. \n"
+                        "오류가 발생할 수 있으니 연타는 삼가주세요."),
                 body: Center(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -94,10 +99,13 @@ class _MypetState extends State<Mypet> {
               Widget feedBtn = IconButton(
                   onPressed: () async {
                     if(feeding){
-                      mn.SnackbarBasic(context, "먹이를 주는 중입니다.");
+                      mn.DialogBasic(context, "먹이를 주는 중입니다.");
                       return;
                     }
-                    feeding=true;
+
+                    setState(() {
+                      feeding=true;
+                    });
 
                     int orgin = await cs.getCoin(user!.uid);
 
@@ -107,19 +115,24 @@ class _MypetState extends State<Mypet> {
                       return;
                     }
                     await cs.changeCoin(orgin-10, user!.uid);
-                    sleep(const Duration(milliseconds: 5));
+                    sleep(const Duration(seconds: 1));
                     await ps.feed(user!.uid, pd, orgin-10,context);
-                    mn.SnackbarBasic(context, "밥 주기 성공!");
+                    mn.DialogBasic(context, "밥 주기 성공!");
                     sleep(const Duration(seconds: 1));
                     setState(() {
-
+                      feeding=false;
                     });
 
-                    feeding=false;
+
                   },
                   icon: Icon(Icons.lunch_dining_rounded, size: 45,));
               return Scaffold(
-                appBar: header.screenHeader(context, 'My Pet'),
+                appBar: header.NotHeader(context, "Pet",
+                    "10 코인으로 밥 주기가 가능합니다. \n"
+                        "경험치가 100을 넘기면 레벨업 합니다. \n"
+                        "4레벨 이상 도달시 펫이 보은을 합니다. \n"
+                        "이름은 변경이 불가합니다. \n"
+                        "오류가 발생할 수 있으니 연타는 삼가주세요."),
                 body: Center(
                   child: Column(
                     children: [

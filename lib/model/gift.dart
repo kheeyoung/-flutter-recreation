@@ -46,7 +46,10 @@ class _GiftState extends State<Gift> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: header.screenHeader(context, "Gift"),
+        appBar: header.NotHeader(context, "Gift",
+          "가챠로 획득한 아이템으로 선물이 가능합니다. \n"
+              "모든 항목을 입력해야 선물이 가능합니다. \n"
+              "오류가 발생할 수 있으니 연타는 삼가주세요."),
         body: SingleChildScrollView(
           child: FutureBuilder(
             future: Future.wait(

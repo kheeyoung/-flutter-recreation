@@ -8,6 +8,7 @@ import '../../service/boardMethod.dart';
 import '../../service/userMethod.dart';
 import '../widget/header.dart';
 import '../widget/myNotification.dart';
+import 'doc/doc.dart';
 import 'likePoint.dart';
 
 class Myroom extends StatefulWidget {
@@ -47,6 +48,7 @@ class _MyroomState extends State<Myroom> {
                       return Container(
                         padding: EdgeInsets.all(10),
                         child: Column(
+
                           children: [
                             Text("Weather", style: TextStyle(fontSize: 18)),
                             Row(
@@ -72,7 +74,7 @@ class _MyroomState extends State<Myroom> {
                             SizedBox(height: 2,
                               child: Divider(),),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 //호감도 버튼
                                 Column(
@@ -88,7 +90,7 @@ class _MyroomState extends State<Myroom> {
                                     Text("호감도")
                                   ],
                                 ),
-                                SizedBox(width: 10,),
+
                                 //아이템
                                 Column(
                                   children: [
@@ -116,7 +118,21 @@ class _MyroomState extends State<Myroom> {
                                       icon: Icon(Icons.monetization_on_sharp,size: 60,),tooltip: "은행",),
                                     Text("은행")
                                   ],
-                                ),SizedBox(width: 10,),
+                                ),
+                                //Doc
+                                Column(
+                                  children: [
+                                    IconButton(
+                                      onPressed: (){
+                                        Navigator.push(context, MaterialPageRoute(    //가챠창으로 이동
+                                            builder: (context){
+                                              return const Doc();
+                                            }));
+                                      },
+                                      icon: Icon(Icons.book,size: 60,),tooltip: "문서",),
+                                    Text("문서")
+                                  ],
+                                )
 
 
                               ],
