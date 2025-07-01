@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         builder: (context, snapshot){
           WidgetsBinding.instance.addPostFrameCallback((_){});
           if(snapshot.hasData){   //스냅샷이 데이터가 있다면 (=로그인 되어 있다면)
-            print('로그인 성공: ${snapshot.data?.email}');  // 로그인된 이메일 로그 출력
+
             Keymethod keymethod= Keymethod();
             Usermethod usermethod = Usermethod();
 
@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
               builder: (BuildContext context, AsyncSnapshot snapshotF) {
                 if(snapshotF.hasData){
                   snapshotF.data![1];
-                  print('Future 결과 데이터: ${snapshotF.data}'); // Future 결과 로그 출력
+
                   bool state= snapshotF.data![0][0];
 
 
@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
                   }
                 }
                 else{
-                  print("123456789");
+
                   return Loading();
                 }
               },

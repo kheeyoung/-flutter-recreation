@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/model/myRoom/bank/bank.dart';
 import 'package:myapp/model/myRoom/item.dart';
 import 'package:myapp/model/miniGame/myPet.dart';
+import 'package:myapp/model/myRoom/room/roomTable.dart';
 import 'package:myapp/service/weatherService.dart';
 import '../../service/boardMethod.dart';
 import '../../service/userMethod.dart';
@@ -142,6 +143,7 @@ class _MyroomState extends State<Myroom> {
                             SizedBox(height: 2,
                               child: Divider(),),
                             SizedBox(height: 10,),
+                            Roomtable()
 
                           ],
                         ),

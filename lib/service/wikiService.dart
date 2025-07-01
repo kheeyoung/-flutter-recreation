@@ -398,11 +398,11 @@ class WikiService {
     return filename;
   }
 
-  Future<void>makeWiki(String uid)async {
+  Future<void>makeWiki(String uid, String userName)async {
     final db = FirebaseFirestore.instance;
     final userdata = <String, dynamic>{
       "color": "ffffff",
-      "name": "",
+      "name": userName,
       "private" : false,
       "talent" : "",
       "uid" : uid

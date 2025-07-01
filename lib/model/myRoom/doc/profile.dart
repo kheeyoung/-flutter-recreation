@@ -49,7 +49,7 @@ class _ProfileState extends State<Profile> {
 
                 Container(
 
-                  alignment: Alignment.centerLeft,
+                  alignment: widget.public=="public" ? Alignment.centerLeft : Alignment.centerRight,
                   child: Column(
                     children: [
                       Container(

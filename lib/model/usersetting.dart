@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -289,6 +291,7 @@ class _UsersettingState extends State<UserSetting> {
                                       _authentication.currentUser; //유저정보 가져오기
                                   int result =
                                   await usermethod.checkFirstLogIn(user!.uid);
+                                  sleep(const Duration(milliseconds: 500));
 
                                   if (result == 1) {
                                     //최초 로그인이 아닌 경우
@@ -296,15 +299,21 @@ class _UsersettingState extends State<UserSetting> {
                                   } else {
                                     //정보를 등록
                                     await usermethod.RegistUser(user!.email, user!.uid, userName); //유저정보
+                                    sleep(const Duration(milliseconds: 500));
                                     await giftmethod.RegistGift(user!.uid, "1", firstGift, user!.uid); //선물 등록
+                                    sleep(const Duration(milliseconds: 500));
                                     await giftmethod.RegistGift(user!.uid, "2", secondGift, user!.uid);
+                                    sleep(const Duration(milliseconds: 500));
                                     await giftmethod.RegistGift(user!.uid, "3", thirdGift, user!.uid);
+                                    sleep(const Duration(milliseconds: 500));
 
                                     //위키 생성
-                                    await ws.makeWiki(user!.uid);
+                                    await ws.makeWiki(user!.uid, userName!);
+                                    sleep(const Duration(milliseconds: 500));
 
                                     //계좌 개설
                                     await cs.makeAccount(user!.uid);
+                                    sleep(const Duration(milliseconds: 500));
 
                                     if (mounted) {
                                       message = "등록 성공!";

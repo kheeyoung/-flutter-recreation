@@ -207,8 +207,8 @@ class MyNotification{
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.accessibility),
-                  Icon(Icons.accessibility),
+                  Icon(Icons.lock),
+
                 ],
               ),
 

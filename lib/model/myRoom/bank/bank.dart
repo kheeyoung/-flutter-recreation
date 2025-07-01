@@ -95,7 +95,7 @@ class _BankState extends State<Bank> {
                               setState(() {
                                 sort = sort ? false: true;
                               });
-                            }, icon: Icon(Icons.keyboard_arrow_down_sharp))
+                            }, icon: Icon(Icons.compare_arrows))
 
                           ],
                         ),

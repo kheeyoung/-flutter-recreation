@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -116,7 +118,7 @@ class _LoginState extends State<Login> {
                               int FirstLogin =
                                   await usermethod.checkFirstLogIn(user!.uid);
                               var Screen;
-
+                              sleep(const Duration(seconds:1));
 
 
                               //최초 로그인의 경우 유저 정보 세팅창으로 이동

@@ -36,7 +36,6 @@ class _BasicinfoState extends State<Basicinfo> {
                       decoration: itff.noMarginFormDeco("이름을 입력해주세요."),
                       initialValue: widget.wd.name,
                       maxLength: 20,
-                      key: ValueKey(1),
                       onSaved: (value) {widget.wd.name=value!;},
                       onChanged: (value) {widget.wd.name=value!;}
                   ),
@@ -56,7 +55,6 @@ class _BasicinfoState extends State<Basicinfo> {
                       decoration: itff.noMarginFormDeco("재능을 입력해주세요."),
                       initialValue: widget.wd.talent,
                       maxLength: 20,
-                      key: ValueKey(1),
                       onSaved: (value) {widget.wd.talent=value!;},
                       onChanged: (value) {widget.wd.talent=value!;}
                   ),
@@ -76,7 +74,6 @@ class _BasicinfoState extends State<Basicinfo> {
                       decoration: itff.noMarginFormDeco("색상코드 6자리 (# 제외)"),
                       initialValue: widget.wd.color,
                       maxLength: 6,
-                      key: ValueKey(1),
                       onSaved: (value) {widget.wd.color=value!;},
                       onChanged: (value) {widget.wd.color=value!;}
                   ),

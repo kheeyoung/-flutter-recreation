@@ -12,10 +12,10 @@ class Usermethod {
     final db = FirebaseFirestore.instance;
     int result = 0;
 
-    final docRef = await db.collection("user").doc(userUid);
+    final docRef = db.collection("user").doc(userUid);
     await docRef.get().then(
       (DocumentSnapshot doc) {
-        if (doc.data() != null) {result = 1;}
+        if (doc.exists ) {result = 1;}
       },
       onError: (e) => print("Error getting document: $e"),
     );
