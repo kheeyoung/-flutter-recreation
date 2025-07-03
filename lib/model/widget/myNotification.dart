@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:myapp/DTO/wikiDTO/sectionDTO.dart';
+import 'package:myapp/service/roomService.dart';
 
 import 'package:myapp/service/wikiService.dart';
 import '../../service/boardMethod.dart';
@@ -536,5 +537,108 @@ class MyNotification{
   void hideLoadingDialog(BuildContext context) {
     Navigator.of(context, rootNavigator: true).pop();
   }
+
+  Future<void> changeLock(String uid, BuildContext context)async {
+    String newPw="";
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          child: Container(
+            margin: EdgeInsets.all(10),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(height: 10,),
+                  Text("패스워드 변경"),
+                  SizedBox(height: 10,),
+
+                  SizedBox(
+                    width: 200,
+                    child: TextFormField(
+                      maxLength: 10,
+                        key: ValueKey(1),
+                        onSaved: (value) {
+                          newPw = value!;
+                        },
+                        onChanged: (value) {
+                          newPw = value;
+                        },
+                        decoration: inputTextFormField.basicFormDeco("new Password")
+                    ),
+                  ),
+
+                  OutlinedButton(onPressed: (){
+                    final ref = FirebaseFirestore.instance.collection("room").doc(uid);
+                    ref.update({
+                      "pw": newPw,
+                    }).then(
+                            (value) => SnackbarBasic(context, "변경 성공!"),
+                        onError: (e) => SnackbarBasic(context, "변경 실패!"));
+                  }, child: Text("변경"), ),
+                  SizedBox(width: 10,),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<bool> DialogToCheckMap(BuildContext context, String correctPw) async {
+    String pw = "";
+
+    final result = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false, // 바깥 터치로 닫히지 않게
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("비밀번호 확인"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.lock),
+              const SizedBox(height: 10),
+              TextFormField(
+                obscureText: true,
+                onChanged: (value) {
+                  pw = value;
+                },
+                decoration: InputDecoration(
+                  labelText: "Password",
+                  hintText: "Password를 입력해주세요.",
+                  border: const OutlineInputBorder(),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false); // 닫기
+              },
+              child: const Text("취소"),
+            ),
+            TextButton(
+              onPressed: () {
+                if (pw == correctPw) {
+                  Navigator.of(context).pop(true); // 성공
+                } else {
+                  DialogBasic(context, "비밀번호가 옳지 않습니다.");
+                }
+              },
+              child: const Text("확인"),
+            ),
+          ],
+        );
+      },
+    );
+
+    return result ?? false; // null이면 false 처리
+  }
+
 
 }

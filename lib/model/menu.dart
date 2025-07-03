@@ -1,18 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/DTO/myMap/myMapDTO.dart';
 import 'package:myapp/model/gacha.dart';
 import 'package:myapp/model/gift.dart';
 import 'package:myapp/model/board.dart';
 import 'package:myapp/model/master/masterPage.dart';
 import 'package:myapp/model/miniGame/miniGame.dart';
+import 'package:myapp/model/myMap/research.dart';
 
 import 'package:myapp/model/myRoom/myroom.dart';
 import 'package:myapp/model/widget/header.dart';
 import 'package:myapp/model/widget/myNotification.dart';
 
-import '../model/map/myMap.dart';
+import '../model/mymap/myMap.dart';
 import '../service/ectMethod.dart';
 import '../service/keyMethod.dart';
+import '../service/myMapService.dart';
 
 
 class Menu extends StatefulWidget {
@@ -28,6 +31,7 @@ class _MenuState extends State<Menu> {
   MyNotification myNotification=MyNotification();
   Keymethod key= Keymethod();
   Ectmethod ect= Ectmethod();
+  MyMapService mms= MyMapService();
   @override
   Widget build(BuildContext context) {
 
@@ -116,11 +120,16 @@ class _MenuState extends State<Menu> {
                     Column(
                       children: [
                         IconButton(
-                          onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(    //가챠창으로 이동
-                                builder: (context){
-                                  return MyMap();
-                                }));
+                          onPressed: ()async{
+                            MyMapDTO key = await mms.getMapSetting();
+                            if(key.isLock){
+                              myNotification.DialogToCheckIsOK(context,key.pw,Research(mmd: key));
+                            }else{
+                              Navigator.push(context, MaterialPageRoute(    //가챠창으로 이동
+                                  builder: (context){
+                                    return Research(mmd: key);
+                                  }));
+                            }
                           },
                           icon: Icon(Icons.map,size: 80,),tooltip: "맵",),
                         Text("MAP")

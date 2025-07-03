@@ -5,6 +5,7 @@ import 'package:myapp/DTO/room/roomItemDTO.dart';
 import 'package:myapp/model/myRoom/room/editRoom.dart';
 import 'package:myapp/model/myRoom/room/editTop.dart';
 import 'package:myapp/model/widget/header.dart';
+import 'package:myapp/model/widget/myNotification.dart';
 import 'package:myapp/service/roomService.dart';
 
 class Personalroom extends StatefulWidget {
@@ -21,6 +22,7 @@ class _PersonalroomState extends State<Personalroom> {
   Header header = Header();
   RoomService rs = RoomService();
   final _authentication = FirebaseAuth.instance;
+  MyNotification mn = MyNotification();
   List<String> pos = [];
 
   @override
@@ -40,23 +42,36 @@ class _PersonalroomState extends State<Personalroom> {
 
             //자기 방이면 수정 가능
             if (user!.uid == widget.uid) {
-              point.add(Align(
-                alignment: Alignment.centerRight,
-                child: IconButton(
-                  onPressed: () {
+              point.add( Row(
 
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => pos.isNotEmpty ? Editroom(rid: snapshot.data[0], uid: widget.uid) : Edittop(uid: widget.uid, rid: snapshot.data[1]),
-                        ));
-                  },
-                  style: OutlinedButton.styleFrom(
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.zero))),
-                  icon: Icon(Icons.edit), // 테두리 두께
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => pos.isNotEmpty ? Editroom(rid: snapshot.data[0], uid: widget.uid) : Edittop(uid: widget.uid, rid: snapshot.data[1]),
+                            ));
+                      },
+                      style: OutlinedButton.styleFrom(
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.zero))),
+                      icon: Icon(Icons.edit), // 테두리 두께
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        mn.changeLock(user!.uid, context);
+                      },
+                      style: OutlinedButton.styleFrom(
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.zero))),
+                      icon: Icon(Icons.settings_rounded), // 테두리 두께
+                    ),
+                  ],
                 ),
-              ));
+              );
             }
 
             //설명
@@ -92,7 +107,7 @@ class _PersonalroomState extends State<Personalroom> {
 
             return Scaffold(
                 appBar: header.NotHeader(
-                    context, "${widget.rd.name}의 개인실", "방의 편집은 자신의 방만 가능합니다."),
+                    context, "${widget.rd.name}의 개인실", "방의 편집은 자신의 방만 가능합니다.\n초기 비밀번호는 0000입니다."),
                 body: SingleChildScrollView(
                   child: Center(
                     child: Container(

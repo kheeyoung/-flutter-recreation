@@ -230,9 +230,6 @@ class RoomService {
     return result;
   }
 
-
-
-
   Future<String> getImage()async{
     try{
       final storageRef = FirebaseStorage.instance.ref();
