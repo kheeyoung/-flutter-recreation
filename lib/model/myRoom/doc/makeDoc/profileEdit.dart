@@ -104,7 +104,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                               decoration: itff.noMarginFormDeco("이름을 입력해주세요."),
                               initialValue: pd.name,
                               maxLength: 20,
-                              key: ValueKey(1),
+                              key: ValueKey(2),
                               onSaved: (value) {pd.name=value!;},
                               onChanged: (value) {pd.name=value!;}
                           ),
@@ -163,9 +163,29 @@ class _ProfileEditState extends State<ProfileEdit> {
                               decoration: itff.noMarginFormDeco("원어 이름을 입력해주세요."),
                               initialValue: pd.originName,
                               maxLength: 20,
-                              key: ValueKey(1),
+                              key: ValueKey(3),
                               onSaved: (value) {pd.originName=value!;},
                               onChanged: (value) {pd.originName=value!;}
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    //한마디
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("한마디"),
+                        Container(
+                          width: fullWidth*0.5,
+                          margin: EdgeInsets.all(10),
+                          child: TextFormField(
+                              decoration: itff.noMarginFormDeco("한마디를 입력해주세요."),
+                              initialValue: pd.oneWord,
+                              maxLength: 40,
+                              key: ValueKey(4),
+                              onSaved: (value) {pd.oneWord=value!;},
+                              onChanged: (value) {pd.oneWord=value!;}
                           ),
                         ),
                       ],
@@ -183,7 +203,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                               decoration: itff.noMarginFormDeco("인지도를 입력해주세요."),
                               initialValue: pd.awareness,
                               maxLength: 20,
-                              key: ValueKey(1),
+                              key: ValueKey(5),
                               onSaved: (value) {pd.awareness=value!;},
                               onChanged: (value) {pd.awareness=value!;}
                           ),
@@ -203,7 +223,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                               decoration: itff.noMarginFormDeco("신장을 입력해주세요."),
                               initialValue: pd.height,
                               maxLength: 20,
-                              key: ValueKey(1),
+                              key: ValueKey(6),
                               onSaved: (value) {pd.height=value!;},
                               onChanged: (value) {pd.height=value!;}
                           ),
@@ -223,7 +243,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                               decoration: itff.noMarginFormDeco("체중을 입력해주세요."),
                               initialValue: pd.weight,
                               maxLength: 20,
-                              key: ValueKey(1),
+                              key: ValueKey(7),
                               onSaved: (value) {pd.weight=value!;},
                               onChanged: (value) {pd.weight=value!;}
                           ),
@@ -243,7 +263,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                               decoration: itff.noMarginFormDeco("나이를 입력해주세요."),
                               initialValue: pd.age,
                               maxLength: 20,
-                              key: ValueKey(1),
+                              key: ValueKey(8),
                               onSaved: (value) {pd.age=value!;},
                               onChanged: (value) {pd.age=value!;}
                           ),
@@ -263,7 +283,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                               decoration: itff.noMarginFormDeco("생일을 입력해주세요."),
                               initialValue: pd.birth,
                               maxLength: 20,
-                              key: ValueKey(1),
+                              key: ValueKey(9),
                               onSaved: (value) {pd.birth=value!;},
                               onChanged: (value) {pd.birth=value!;}
                           ),
@@ -283,7 +303,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                               decoration: itff.noMarginFormDeco("관계를 입력해주세요."),
                               initialValue: pd.relationship,
                               maxLength: 20,
-                              key: ValueKey(1),
+                              key: ValueKey(10),
                               onSaved: (value) {pd.relationship=value!;},
                               onChanged: (value) {pd.relationship=value!;}
                           ),
@@ -303,7 +323,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                               decoration: itff.noMarginFormDeco("소지품을 입력해주세요."),
                               initialValue: pd.belongings1,
                               maxLength: 20,
-                              key: ValueKey(1),
+                              key: ValueKey(11),
                               onSaved: (value) {pd.belongings1=value!;},
                               onChanged: (value) {pd.belongings1=value!;}
                           ),
@@ -321,7 +341,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                               decoration: itff.noMarginFormDeco("소지품을 입력해주세요."),
                               initialValue: pd.belongings2,
                               maxLength: 20,
-                              key: ValueKey(1),
+                              key: ValueKey(12),
                               onSaved: (value) {pd.belongings2=value!;},
                               onChanged: (value) {pd.belongings2=value!;}
                           ),
@@ -339,16 +359,13 @@ class _ProfileEditState extends State<ProfileEdit> {
                               decoration: itff.noMarginFormDeco("소지품을 입력해주세요."),
                               initialValue: pd.belongings3,
                               maxLength: 20,
-                              key: ValueKey(1),
+                              key: ValueKey(13),
                               onSaved: (value) {pd.belongings3=value!;},
                               onChanged: (value) {pd.belongings3=value!;}
                           ),
                         ),
                       ],
                     ),
-
-
-
 
 
                     SizedBox(height: 20,),

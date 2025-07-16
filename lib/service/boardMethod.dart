@@ -18,6 +18,7 @@ class Boardmethod{
     await db.collection("board").get().then((querySnapshot) {
 
       for (var docSnapshot in querySnapshot.docs) {
+        if(docSnapshot.id=="dummy"){continue;}
 
         Post data= new Post(
             docSnapshot["title"],

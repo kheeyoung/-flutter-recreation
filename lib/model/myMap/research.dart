@@ -34,7 +34,7 @@ class _ResearchState extends State<Research> {
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               MapPointDTO mpd = snapshot.data[0];
-              print("image by : "+mpd.image);
+
               pos = mpd.uid;
 
               List<Widget> underPoint = [];

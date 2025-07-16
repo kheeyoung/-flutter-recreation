@@ -34,7 +34,15 @@ class _DocState extends State<Doc> {
                     width: fullWidth*0.8,
                     child: Column(
                         children: [
-                          table
+                          table,
+                          Align(
+                            alignment: Alignment.centerRight,
+                              child: IconButton(onPressed: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) =>  Makedoc()),
+                                );
+                              }, icon: Icon(Icons.edit)))
                         ],
 
                     ),

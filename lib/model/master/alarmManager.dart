@@ -105,7 +105,7 @@ class _AlarmmanagerState extends State<Alarmmanager> {
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       if(snapshot.hasData){
                         List<Widget> w =[];
-                        for(String s in snapshot.data.keys().toList()){
+                        for(String s in snapshot.data.keys.toList()){
                           w.add(Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

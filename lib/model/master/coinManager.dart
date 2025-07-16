@@ -144,7 +144,7 @@ class _CoinmanagerState extends State<Coinmanager> {
                                     await cs.changeCoin(orgin+coin, selectedUid);
                                     await cs.makeInquiry(selectedUid,Inquirydto(coin, memo, "System", ""));
                                     await nc.sendNotification("$coin 코인이 입금되었습니다.", memo, selectedUid);
-                                    await am.addAlarm(PersonalAlarm("$coin 코인이 입금되었습니다.", memo, DateFormat('yyMMddHHmmss').format(DateTime.now())), selectedUid);
+                                    //await am.addAlarm(PersonalAlarm("$coin 코인이 입금되었습니다.", memo, DateFormat('yyMMddHHmmss').format(DateTime.now())), selectedUid);
 
                                     mn.SnackbarBasic(context, "입금 성공 (잔여 코인 : ${orgin+coin})");
 

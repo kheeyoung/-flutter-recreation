@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:myapp/DTO/inquiryDTO.dart';
 import 'package:myapp/model/miniGame/myApply.dart';
-import 'package:myapp/model/widget/inputTextFormField.dart';
 import 'package:myapp/model/widget/myNotification.dart';
 import 'package:myapp/service/coinService.dart';
 import 'package:myapp/service/lotteryService.dart';
@@ -29,7 +29,9 @@ class _LotteryState extends State<Lottery> {
   @override
   Widget build(BuildContext context) {
     String nextDay = tomorrow.year.toString()+tomorrow.month.toString()+tomorrow.day.toString();
-    return GestureDetector(
+    return ModalProgressHUD(
+        inAsyncCall: loading,
+        child: GestureDetector(
       onTap: (){FocusScope.of(context).unfocus();},
       child: Scaffold(
         appBar: AppBar(
@@ -141,23 +143,31 @@ class _LotteryState extends State<Lottery> {
                           ],
                         ),
                         OutlinedButton(onPressed: () async {
-                          if(loading){return;}
+                          setState(() {
+                            loading=true;
+                          });
                           if(myNum[0]==myNum[1] || myNum[1]==myNum[2] || myNum[0]==myNum[2]){
                             mn.SnackbarBasic(context, "중복된 숫자나 빈칸은 넣을 수 없습니다");
+                            setState(() {
+                              loading=false;
+                            });
                             return;
                           }
                           int coin = await cs.getCoin(user!.uid);
                           if(coin<1){
                             mn.SnackbarBasic(context, "코인이 부족합니다!");
+                            setState(() {
+                              loading=false;
+                            });
                             return;
                           }
-                          loading=true;
                           await cs.changeCoin(coin-1, user!.uid);
                           await cs.makeInquiry(user!.uid, Inquirydto(-1, "Lottery 응모", "System", DateFormat('yyMMddHHmmss').format(DateTime.now())));
                           await ls.applyLottery(user!.uid, myNum, nextDay,context);
-          
-                          loading=false;
-          
+
+                          setState(() {
+                            loading=false;
+                          });
                         }, child: Text("응모")),
           
                         Myapply()
@@ -167,6 +177,6 @@ class _LotteryState extends State<Lottery> {
                   })),
         ),
       ),
-    );
+    ));
   }
 }

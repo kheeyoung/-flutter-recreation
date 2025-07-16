@@ -10,7 +10,7 @@ class Loading extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.local_florist_outlined, size: 40,),
+          Icon(Icons.train, size: 40,),
           Text("Loading...")
         ],
       ),),

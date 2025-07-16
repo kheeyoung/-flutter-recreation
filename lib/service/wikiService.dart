@@ -7,6 +7,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:myapp/model/myRoom/doc/characterPage.dart';
 import 'package:myapp/model/widget/myNotification.dart';
 
+import '../model/myRoom/doc/masterDoc.dart';
+
 
 class WikiService {
   MyNotification mn = MyNotification();
@@ -77,10 +79,19 @@ class WikiService {
 
       iconList.add(GestureDetector(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) =>  Characterpage(uid: data[i].uid)),
-          );
+
+          if(data[i].uid=="master"){
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) =>  Masterdoc()),
+            );
+          }else{
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) =>  Characterpage(uid: data[i].uid)),
+            );
+          }
 
 
         },
@@ -91,12 +102,14 @@ class WikiService {
               Container(
                   alignment: Alignment.center,
                   width: i==0 ? iconSize*4 : iconSize,
+                  height: 30,
                   color: colorFromHex(data[i].color),
                   child:  Text(talent,textAlign: TextAlign.center),
               ),
               Container(
                   alignment: Alignment.center,
                   width: i==0 ? iconSize*4 : iconSize,
+                  height: 50,
                   child: Text(name,textAlign: TextAlign.center))
 
 
@@ -144,10 +157,14 @@ class WikiService {
                   Container(
                       alignment: Alignment.center,
                       width: i==0 ? iconSize*4 : iconSize,
+                      height: 30,
                       color: colorFromHex("666A73"),
-                      child:  Text("no data")),
+                      child:  Center(child: Text("no data"))),
 
-                  Text("no data")
+                  Container(
+                      width: i==0 ? iconSize*4 : iconSize,
+                      height: 50,
+                      child: Center(child: Text("no data")))
                 ],
               )),
         ));

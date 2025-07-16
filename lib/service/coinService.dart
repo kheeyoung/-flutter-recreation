@@ -136,6 +136,7 @@ class CoinService{
     await db.collection("bank").get().then(
           (querySnapshot) {
         for (int i=0; i<querySnapshot.size; i++) {
+          if(querySnapshot.docs[i].id=="dummy"){continue;}
           userInfo[querySnapshot.docs[i].id.toString()]=querySnapshot.docs[i].data()["coin"];
         }
       },

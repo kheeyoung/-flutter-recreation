@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:myapp/DTO/inquiryDTO.dart';
 import 'package:myapp/DTO/personalAlarm.dart';
 import 'package:myapp/model/widget/header.dart';
@@ -51,7 +52,9 @@ class _SendmoneyState extends State<Sendmoney> {
             "송금시 수령자에게 알림이 갑니다. \n"
                 "메모 미 입력시 기본 텍스트로 전송됩니다.\n"
                 "오류가 발생할 수 있으니 연타는 삼가주세요."),
-      body: GestureDetector(
+      body: ModalProgressHUD(
+          inAsyncCall: loading,
+          child: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
         },
@@ -156,13 +159,16 @@ class _SendmoneyState extends State<Sendmoney> {
                         const SizedBox(height: 20,),
                         OutlinedButton(
                             onPressed: () async {
-                              if(loading){return;}
-                              if(selectedUser=="" || coin==0){
-                                mn.SnackbarBasic(context, "수신인과 입금 금액을 입력해주세요.");
-                                return;}
                               setState(() {
                                 loading=true;
                               });
+                              if(selectedUser=="" || coin==0){
+                                mn.SnackbarBasic(context, "수신인과 입금 금액을 입력해주세요.");
+                                setState(() {
+                                  loading=false;
+                                });
+                                return;}
+
                               if(memo==""){memo=" ";}
                               String selectedUserUid = snapshot.data[0][selectedUser];
                               String myName= await um.getUserNameByUid(user!.uid);
@@ -189,7 +195,7 @@ class _SendmoneyState extends State<Sendmoney> {
               },
             )
         ),
-      )
+      ))
     );
   }
 }

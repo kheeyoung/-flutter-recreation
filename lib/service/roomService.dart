@@ -19,6 +19,7 @@ class RoomService {
     await db.collection("room").get().then(
       (querySnapshot) {
         for (var docSnapshot in querySnapshot.docs) {
+          if(docSnapshot.id=="dummy"){continue;}
           RoomDto data = RoomDto(
             docSnapshot["uid"],
             docSnapshot["name"],
@@ -121,7 +122,7 @@ class RoomService {
     docId.add(await addItem(
         uid, RoomItemDto("", "테이블", "다양한 일을 할 수 있는 나무 테이블.", false, []),));
         docId.add(await addItem(
-        uid, RoomItemDto("", "화장실", "혼자 만의 시간을 즐길 수 있는 화장실.", false, []),));
+        uid, RoomItemDto("", "화장실", "혼자 만의 시간을 즐길 수 있는 화장실. 샤워부스와 양변기, 1인용 욕조가 있다.", false, []),));
     docId.add(await addItem(uid,
         RoomItemDto(
             "", "창문", "열차는 빠르게 달리고 있어서 창문 밖으로 고개를 내미는 건 위험하다", false, []),));
@@ -271,7 +272,7 @@ class RoomService {
     try{
       var ref = FirebaseFirestore.instance.collection("room").doc(uid);
       RoomItemDto rid =await getPoint(uid, "");
-      print(rid.underPoint);
+
       List<String> underPoint = rid.underPoint;
       underPoint.remove(deleteId);
       ref.update({

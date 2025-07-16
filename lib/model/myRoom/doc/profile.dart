@@ -59,6 +59,7 @@ class _ProfileState extends State<Profile> {
                           border: TableBorder.all(color: Colors.black12), // 테두리 선택
                           defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                           children: [
+                            //재능,이름,원어
                             TableRow(
                               children: [
                                 Container(
@@ -68,7 +69,7 @@ class _ProfileState extends State<Profile> {
                                   child: Column(
                                     children: [
                                       Text("<초세계급 ${pd.talent}>"),
-                                      Text(pd.name),
+                                      Text(pd.name, style: TextStyle(fontWeight: FontWeight.bold)),
                                       Text(pd.originName),
                                     ],
                                   ),

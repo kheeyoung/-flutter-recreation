@@ -9,16 +9,16 @@ class Usermethod {
 
   //최초 로그인 여부 확인
   Future<int> checkFirstLogIn(userUid) async {
-    final db = FirebaseFirestore.instance;
     int result = 0;
 
-    final docRef = db.collection("user").doc(userUid);
-    await docRef.get().then(
-      (DocumentSnapshot doc) {
-        if (doc.exists ) {result = 1;}
-      },
-      onError: (e) => print("Error getting document: $e"),
-    );
+    try {
+      final db = FirebaseFirestore.instance;
+      await db.collection("user").doc(userUid).get().then((querySnapshot) {
+        if (querySnapshot.exists && querySnapshot.data()!["uid"].toString().length>1) {
+          result = 1;
+        }
+      });
+    } catch (e) {}
     return result;
   }
 
@@ -48,8 +48,8 @@ class Usermethod {
     Map<String,String> userInfo={};
     await db.collection("user").get().then(
           (querySnapshot) {
-
         for (int i=0; i<querySnapshot.size; i++) {
+          if(querySnapshot.docs[i].id=="dummy"){continue;}
           userInfo[querySnapshot.docs[i].data()["name"].toString()]=querySnapshot.docs[i].data()["uid"];
         }
       },

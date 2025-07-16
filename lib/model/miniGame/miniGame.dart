@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/model/miniGame/lottery.dart';
+import 'package:myapp/model/miniGame/pet/pet.dart';
 import 'package:myapp/model/miniGame/roulette.dart';
 import 'package:myapp/model/widget/myRoulette.dart';
 
 import '../widget/header.dart';
-import 'myPet.dart';
+
 
 
 class Minigame extends StatefulWidget {
@@ -35,10 +36,11 @@ class _MinigameState extends State<Minigame> {
                   children: [
                     IconButton(
                       onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(    //팻 창으로 이동
+                        Navigator.push(context, MaterialPageRoute(    //pet 창으로 이동
                             builder: (context){
-                              return const Mypet();
+                              return Pet();
                             }));
+
                       },
                       icon: Icon(Icons.pets,size: 60,),tooltip: "Pet",),
                     Text("Pet")

@@ -230,6 +230,7 @@ class _UsersettingState extends State<UserSetting> {
                       const SizedBox(
                         height: 20,
                       ),
+                      /*
                       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                         TextButton(
                           onPressed: () async {
@@ -259,6 +260,8 @@ class _UsersettingState extends State<UserSetting> {
                               }
                             })
                       ]),
+
+                       */
                       const SizedBox(
                         height: 15,
                       ),

@@ -1,6 +1,6 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
-
+const { FieldValue } = require("firebase-admin/firestore");
 admin.initializeApp();
 const db = admin.firestore();
 
@@ -71,5 +71,33 @@ const numbers = [];
     return null;
  });
 
+exports.petManage = onSchedule("every day 02:05", async () => {
+  const userSnap = await admin.firestore().collection("pet").get();
 
 
+  await Promise.all(
+    userSnap.docs.map(async (userDoc) => {
+      const userId = userDoc.id;
+
+      const petsRef = db.collection("pet").doc(userId).collection("pet");
+      const petSnap = await petsRef.get();
+
+      const livePets = petSnap.docs.filter(
+        (doc) => doc.data().isDead === 0
+      );
+      console.log(`👤 User ${userId} has ${livePets.length} live pets`);
+
+      for (const petDoc of livePets) {
+        const data = petDoc.data();
+        await petDoc.ref.update({
+          fatigue: Math.max(0, data.fatigue - 40),
+          happy: Math.max(0, data.happy - 40),
+          hunger: Math.max(0, data.hunger - 40),
+        });
+
+      }
+    })
+  );
+
+  return null;
+});

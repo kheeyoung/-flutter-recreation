@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:myapp/model/widget/header.dart';
 import 'package:myapp/model/widget/myNotification.dart';
 import 'package:myapp/service/coinService.dart';
@@ -32,7 +33,9 @@ class _GachaState extends State<Gacha> {
           "5코인으로 가챠 1회 뽑기가 가능합니다. \n"
               "둥근 화살표를 눌러 연속 가챠가 가능합니다. \n"
               "오류가 발생할 수 있으니 연타는 삼가주세요."),
-      body: Center(
+      body: ModalProgressHUD(
+          inAsyncCall: load,
+          child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -47,60 +50,61 @@ class _GachaState extends State<Gacha> {
                 future: cs.getCoin(user!.uid),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   return Column(
-                    children: [
-                      Text("보유 코인 : ${snapshot.data}"),
-                      const SizedBox(height: 15),
+                      children: [
+                        Text("보유 코인 : ${snapshot.data}"),
+                        const SizedBox(height: 15),
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          OutlinedButton(
-                              onPressed: () async {
-                                if(load){return;}
-                                setState(() {
-                                  load=true;
-                                });
-                                try {
-                                  if(! await cs.changeCoin(snapshot.data-5*num, user!.uid)){
-                                    myNotification.SnackbarBasic(context, "코인이 부족합니다!");
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            OutlinedButton(
+                                onPressed: () async {
+                                  setState(() {
+                                    load=true;
+                                  });
+                                  try {
+                                    if(! await cs.changeCoin(snapshot.data-5*num, user!.uid)){
+                                      myNotification.SnackbarBasic(context, "코인이 부족합니다!");
+                                      setState(() {
+                                        load=false;
+                                      });
+                                    }
+                                    else{
+                                      //랜덤으로 선물 뽑기
+                                      List gift = await itemmethod.getGacha(user!.uid, num);
+
+                                      //선물을 뽑은 아이템에 추가
+                                      await itemmethod.addPickItem(user!.uid, gift);
+
+                                      //확인 창 띄우기
+                                      myNotification.DialogGacha(context, gift);
+                                    }
+
+                                  } catch (e) {
+                                    myNotification.SnackbarBasic(context,
+                                        "오류! 새로고침 후 다시 시도해주세요. 오류가 계속 될 경우 총괄계 제보 바랍니다.");
                                   }
-                                  else{
-                                    //랜덤으로 선물 뽑기
-                                    List gift = await itemmethod.getGacha(user!.uid, num);
-
-                                    //선물을 뽑은 아이템에 추가
-                                    await itemmethod.addPickItem(user!.uid, gift);
-
-                                    //확인 창 띄우기
-                                    myNotification.DialogGacha(context, gift);
-                                  }
-
-                                } catch (e) {
-                                  myNotification.SnackbarBasic(context,
-                                      "오류! 새로고침 후 다시 시도해주세요. 오류가 계속 될 경우 총괄계 제보 바랍니다.");
-                                }
-                                setState(() {
-                                  load=false;
-                                });
-                              },
-                              child: Text(
-                  load ? "Loading...":'가챠 ${num.toString()}회',
-                                style: TextStyle(color: Colors.black),
-                              )),
+                                  setState(() {
+                                    load=false;
+                                  });
+                                },
+                                child: Text('가챠 ${num.toString()}회',
+                                  style: TextStyle(color: Colors.black),
+                                )),
 
 
-                          IconButton(
-                              onPressed: () {
-                                if(num==100){num=1;}
-                                else{num*=10;}
-                                setState(() {});
-                              },
-                              icon: Icon(Icons.refresh))
-                        ],
-                      )
-                  ]
+                            IconButton(
+                                onPressed: () {
+                                  if(num==100){num=1;}
+                                  else{num*=10;}
+                                  setState(() {});
+                                },
+                                icon: Icon(Icons.refresh))
+                          ],
+                        )
+                    ]
 
-                  );
+                    );
                 }
             ),
 
@@ -109,7 +113,7 @@ class _GachaState extends State<Gacha> {
 
 
 
-      ),
+      ))
     );
   }
 }

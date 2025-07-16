@@ -150,8 +150,13 @@ class NotificationController extends GetxController {
       //파이어베이스에 알림 저장
       PersonalAlarm pa = PersonalAlarm(title, contents, DateFormat('yyMMddHHmmss').format(DateTime.now()));
 
-      await am.addAlarm(pa,receiver);
+      try{
+        await am.addAlarm(pa,receiver);
 
+      }catch(e) {
+        print("오류 발생!!!");
+        print(e);
+      }
       // HTTP POST 요청 보내기
       final response = await http.post(
         Uri.parse("https://sendnotification-dskh577uyq-uc.a.run.app"),
