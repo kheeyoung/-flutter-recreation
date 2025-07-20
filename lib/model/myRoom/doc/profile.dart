@@ -33,6 +33,7 @@ class _ProfileState extends State<Profile> {
         ]),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
 
+
           ProfileDTO pd = ProfileDTO(
               "", "", "", "", "", "", "", "", "", "", "", "", "", "");
           String url ="";
@@ -68,8 +69,11 @@ class _ProfileState extends State<Profile> {
                                   alignment: Alignment.center,
                                   child: Column(
                                     children: [
-                                      Text("<초세계급 ${pd.talent}>"),
-                                      Text(pd.name, style: TextStyle(fontWeight: FontWeight.bold)),
+                                      Text("<${pd.talent}>"),
+                                      Text(pd.name, style:
+                                      TextStyle(fontWeight: FontWeight.bold, color: ws.colorFromHex(wd.fontColor)),
+
+                                      ),
                                       Text(pd.originName),
                                     ],
                                   ),

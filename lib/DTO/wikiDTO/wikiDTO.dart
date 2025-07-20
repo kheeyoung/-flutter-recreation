@@ -4,7 +4,8 @@ class WikiDto{
   String _talent;
   String _uid;
 
-  WikiDto(this._name, this._color, this._talent, this._uid, this._private);
+  WikiDto(this._name, this._color, this._talent, this._uid, this._fontColor,
+      this._private);
 
   String get name => _name;
 
@@ -12,6 +13,7 @@ class WikiDto{
     _name = value;
   }
 
+  String _fontColor;
   bool _private;
 
   String get color => _color;
@@ -30,6 +32,12 @@ class WikiDto{
 
   set uid(String value) {
     _uid = value;
+  }
+
+  String get fontColor => _fontColor;
+
+  set fontColor(String value) {
+    _fontColor = value;
   }
 
   bool get private => _private;

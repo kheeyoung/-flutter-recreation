@@ -80,6 +80,24 @@ class _BasicinfoState extends State<Basicinfo> {
                 ),
               ],
             ),
+            //색상
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("글자색"),
+                Container(
+                  width: fullWidth*0.5,
+                  margin: EdgeInsets.all(10),
+                  child: TextFormField(
+                      decoration: itff.noMarginFormDeco("색상코드 6자리 (# 제외)"),
+                      initialValue: widget.wd.fontColor,
+                      maxLength: 6,
+                      onSaved: (value) {widget.wd.fontColor=value!;},
+                      onChanged: (value) {widget.wd.fontColor=value!;}
+                  ),
+                ),
+              ],
+            ),
             //비밀 프로필 공개 여부
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

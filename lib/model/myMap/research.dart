@@ -87,13 +87,19 @@ class _ResearchState extends State<Research> {
                     SizedBox(
                       height: 20,
                     ),
-                    Text(
-                      mpd.title,
-                      style: TextStyle(fontSize: 15),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        mpd.title,
+                        style: TextStyle(fontSize: 15),
+                      ),
                     ),
                     SizedBox(height: 10),
-                    Text(
-                      mpd.text,
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        mpd.text,
+                      ),
                     ),
                     SizedBox(
                       height: 20,

@@ -1,12 +1,13 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:myapp/DTO/wikiDTO/profileDTO.dart';
 import 'package:myapp/DTO/wikiDTO/sectionDTO.dart';
 import 'package:myapp/DTO/wikiDTO/wikiDTO.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:myapp/model/myRoom/doc/characterPage.dart';
 import 'package:myapp/model/widget/myNotification.dart';
-
+import 'package:auto_size_text/auto_size_text.dart';
 import '../model/myRoom/doc/masterDoc.dart';
 
 
@@ -18,25 +19,29 @@ class WikiService {
     List<WikiDto> wikiList = [];
 
     await db.collection("wiki").get().then(
-      (querySnapshot) {
+          (querySnapshot) {
         for (var docSnapshot in querySnapshot.docs) {
+          final dataMap = docSnapshot.data();
 
           WikiDto data = WikiDto(
-              docSnapshot["name"],
-              docSnapshot["color"],
-              docSnapshot["talent"],
-              docSnapshot["uid"],
-              docSnapshot["private"]);
-          if(docSnapshot.id=="master"){
-            wikiList.insert(0,data);
-          }else{
+            dataMap["name"] ?? "no data",
+            dataMap["color"] ?? "000000",
+            dataMap["talent"] ?? "no data",
+            dataMap["uid"] ?? "no data",
+            dataMap["fontColor"] ?? "000000",
+            dataMap["private"] ?? false,
+          );
+
+          if (docSnapshot.id == "master") {
+            wikiList.insert(0, data);
+          } else {
             wikiList.add(data);
           }
-
         }
       },
       onError: (e) => print("Error completing: $e"),
     );
+
     return wikiList;
   }
 
@@ -45,37 +50,46 @@ class WikiService {
     final docRef = db.collection("wiki").doc(uid);
 
     try {
-      final doc = await docRef.get(); // 🔑 await 사용
+      final doc = await docRef.get();
 
       if (doc.exists) {
+        final dataMap = doc.data() ?? {};
 
         WikiDto data = WikiDto(
-          doc["name"],
-          doc["color"],
-          doc["talent"],
-          doc["uid"],
-          doc["private"],
+          dataMap["name"] ?? "no data",
+          dataMap["color"] ?? "000000",
+          dataMap["talent"] ?? "no data",
+          dataMap["uid"] ?? "no data",
+          dataMap["fontColor"] ?? "000000",
+          dataMap["private"] ?? false,
         );
 
         return data;
       } else {
         print("문서가 존재하지 않음");
-        return WikiDto("", "", "", "", false); // fallback
+        return WikiDto("no data", "000000", "no data", "no data", "000000", false); // fallback
       }
     } catch (e) {
       print("Error getting document: $e");
-      return WikiDto("", "", "", "", false); // error fallback
+      return WikiDto("no data", "000000", "no data", "no data", "000000", false); // error fallback
     }
+
   }
 
 
   makeIconList(List<WikiDto> data, iconSize, context) {
+
     List<Widget> iconList = [
 
     ];
     for (int i=0; i<data.length; i++) {
-      String name= cutText(data[i].name);
+      String name=  data[i].name;
+      int nameL =name.replaceAll(' ', '').replaceAll(".", '').length;
+      String cutName = name.replaceFirst(" ", "\n");
+
       String talent = cutText(data[i].talent);
+      String fontC = data[i].fontColor;
+
 
       iconList.add(GestureDetector(
         onTap: () {
@@ -92,25 +106,38 @@ class WikiService {
               MaterialPageRoute(builder: (context) =>  Characterpage(uid: data[i].uid)),
             );
           }
-
-
         },
         child: Center(
           child: Column(
 
             children: [
               Container(
-                  alignment: Alignment.center,
-                  width: i==0 ? iconSize*4 : iconSize,
-                  height: 30,
-                  color: colorFromHex(data[i].color),
-                  child:  Text(talent,textAlign: TextAlign.center),
+                alignment: Alignment.center,
+                width: i == 0 ? iconSize * 4 : iconSize,
+                height: 30,
+                color: colorFromHex(data[i].color),
+                child: AutoSizeText(
+                  talent,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: colorFromHex(fontC)),
+                  maxLines: 1,
+                  minFontSize: 8,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
               Container(
                   alignment: Alignment.center,
                   width: i==0 ? iconSize*4 : iconSize,
                   height: 50,
-                  child: Text(name,textAlign: TextAlign.center))
+                  child: AutoSizeText(
+                    nameL > 5 ? cutName: name,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: colorFromHex(fontC)),
+                    maxLines: 2,
+                    minFontSize: 8,
+                    overflow: TextOverflow.ellipsis,
+                    wrapWords: false,
+                  ),)
 
 
             ],
@@ -183,6 +210,7 @@ class WikiService {
   Future<ProfileDTO> getProfile(String uid, String public) async {
     final db = FirebaseFirestore.instance;
     final docRef = db.collection("wiki").doc(uid).collection(public).doc("profile");
+    print(uid);
 
     try {
       final doc = await docRef.get();
@@ -222,6 +250,7 @@ class WikiService {
       "color": wd.color,
       "talent": wd.talent,
       "uid": user.uid,
+      "fontColor" : wd.fontColor,
       "private": wd.private
     };
 
@@ -238,6 +267,7 @@ class WikiService {
   }
 
   Future<void> saveProfile(ProfileDTO pd, String uid, String public, context) async{
+
     final db = FirebaseFirestore.instance;
     final docData = {
     "oneWord" : pd.oneWord,

@@ -41,6 +41,10 @@ class RoomService {
   List<Widget> makeRoomMap(data, iconSize, context, uid) {
     List<Widget> iconList = [];
     for (RoomDto r in data) {
+      int nameL =r.name.replaceAll(' ', '').replaceAll(".", '').length;
+      String name = nameL>4 ? r.name.replaceFirst(" ", "\n") : r.name;
+
+
       iconList.add(
         GestureDetector(
           onTap: () {
@@ -66,7 +70,7 @@ class RoomService {
             width: iconSize,
             height: 50,
             alignment: Alignment.center,
-            child: Text(r.name),
+            child: Text(name, textAlign: TextAlign.center,),
           ),
         ),
       );
