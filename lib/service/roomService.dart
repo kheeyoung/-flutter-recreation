@@ -235,11 +235,12 @@ class RoomService {
     return result;
   }
 
-  Future<String> getImage()async{
+  Future<String> getImage(uid)async{
     try{
       final storageRef = FirebaseStorage.instance.ref();
-      return await storageRef.child("myroom.png").getDownloadURL();
-    }catch(e){return "";}
+
+      return await storageRef.child("room/$uid.png").getDownloadURL();
+    }catch(e){return await FirebaseStorage.instance.ref().child("myroom.png").getDownloadURL();}
 
   }
 

@@ -32,7 +32,7 @@ class _PersonalroomState extends State<Personalroom> {
         future: Future.wait([
           rs.getPoint(widget.uid, pos.isNotEmpty ? pos.last : ""),
           rs.getPersonalRoom(widget.uid, pos.isNotEmpty ? pos.last : ""),
-          rs.getImage()
+          rs.getImage(widget.uid)
         ]),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {

@@ -132,7 +132,6 @@ class WikiService {
                   child: AutoSizeText(
                     nameL > 5 ? cutName: name,
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: colorFromHex(fontC)),
                     maxLines: 2,
                     minFontSize: 8,
                     overflow: TextOverflow.ellipsis,

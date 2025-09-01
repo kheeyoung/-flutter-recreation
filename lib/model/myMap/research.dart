@@ -77,37 +77,40 @@ class _ResearchState extends State<Research> {
                 ));
               }
 
-              return Center(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 20,
-                    ),
-                    pos.isEmpty ? SizedBox(height: 2,) :Image.network(snapshot.data[2]),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text(
-                        mpd.title,
-                        style: TextStyle(fontSize: 15),
+              return SingleChildScrollView(
+                child: Center(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 20,
                       ),
-                    ),
-                    SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text(
-                        mpd.text,
+                      pos.isEmpty ? SizedBox(height: 2,) :Image.network(snapshot.data[2]),
+                      SizedBox(
+                        height: 20,
                       ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Column(
-                      children: underPoint,
-                    )
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                          mpd.title,
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                          mpd.text,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Column(
+                        children: underPoint,
+                      ),
+                      SizedBox(height: 100,)
+                    ],
+                  ),
                 ),
               );
             }

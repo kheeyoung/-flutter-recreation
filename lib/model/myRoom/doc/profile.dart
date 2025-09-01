@@ -42,6 +42,7 @@ class _ProfileState extends State<Profile> {
             pd = snapshot.data[0];
             url =snapshot.data[1];
             form =snapshot.data[2];
+            print(pd.name);
           }
 
           return SingleChildScrollView(
@@ -55,6 +56,7 @@ class _ProfileState extends State<Profile> {
                     children: [
                       Container(
                         width: fullWidth*0.6,
+
                         child: Table(
 
                           border: TableBorder.all(color: Colors.black12), // 테두리 선택
@@ -69,12 +71,16 @@ class _ProfileState extends State<Profile> {
                                   alignment: Alignment.center,
                                   child: Column(
                                     children: [
-                                      Text("<${pd.talent}>"),
+                                      Text("<${pd.talent}>",
+                                    style:
+                                    TextStyle(fontWeight: FontWeight.bold, color: ws.colorFromHex(wd.fontColor)
+                                      )),
                                       Text(pd.name, style:
                                       TextStyle(fontWeight: FontWeight.bold, color: ws.colorFromHex(wd.fontColor)),
 
                                       ),
-                                      Text(pd.originName),
+                                      Text(pd.originName, style:
+                                      TextStyle(fontWeight: FontWeight.bold, color: ws.colorFromHex(wd.fontColor))),
                                     ],
                                   ),
                                 ),

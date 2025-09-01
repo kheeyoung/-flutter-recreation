@@ -59,6 +59,7 @@ class _GiftState extends State<Gift> {
                   [um.getUser(), im.getMyItem(user!.uid)]),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
+
                   return Center(
                     child: SizedBox(
                       width: fullWidth*0.8,
@@ -134,6 +135,8 @@ class _GiftState extends State<Gift> {
                                     onChanged: (String? newValue) {
                                       setState(() {
                                         post.setGiftName(newValue!);
+                                        print(post.getGiftName());
+                                        print(snapshot.data![1][post.getGiftName()]);
                                       });
                                     },
                                     dropdownColor: Colors.white,
@@ -201,10 +204,12 @@ class _GiftState extends State<Gift> {
 
                                 //아이템 사용 전환 (가장 오래 된 것 부터 사용)
                                 await gm.useItem(post.getGiftName(), user.uid);
-                                post.setGiftName("");
+
 
                                 //호감도
+
                                 if (post.getRecipientUid() == snapshot.data![1][post.getGiftName()]) {
+
                                   gm.addLikePoint(user.uid, post.getRecipientUid(), post.getGiftName());
                                 }
 
@@ -213,6 +218,7 @@ class _GiftState extends State<Gift> {
 
                                 mn.SnackbarBasic(context, "선물 발송 완료!!");
 
+                                post.setGiftName("");
                                 setState(() {
                                   loading = false; //로딩 안 보이게 함
                                 });

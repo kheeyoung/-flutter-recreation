@@ -65,6 +65,7 @@ class Itemmethod{
         for (int i=0; i<querySnapshot.size; i++) {
 
           if(querySnapshot.docs[i].data()["isused"] == false){
+
             userItem[querySnapshot.docs[i].data()["name"].toString()]=querySnapshot.docs[i].data()["owner"];
           }
         }

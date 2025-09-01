@@ -84,12 +84,12 @@ class LotteryService{
     return result;
   }
 
-  Future<void>getPrize(LotteryDTO ld, date, uid, rank)async {
+  Future<void>getPrize(LotteryDTO ld, date, uid)async {
     final db = FirebaseFirestore.instance;
     try {
       await db.collection("lottery").doc(date).collection(uid).doc(ld.id).update({"get": true});
       int c = await cs.getCoin(user!.uid);
-      int p = rank==3 ? 200: 50;
+      int p =100;
       await cs.changeCoin(c+p, user!.uid);
       cs.makeInquiry(uid, Inquirydto(p, "Lottery 상금", "System", ""));
     } catch (e) {
